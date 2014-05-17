@@ -1,4 +1,4 @@
 fraggle
 =======
 
-A wrapper for Fragment Manager that streamlines some common operations over Fragments
+An extension to Android Fragment Manager to streamline some common use
