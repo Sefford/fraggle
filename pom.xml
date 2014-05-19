@@ -7,12 +7,53 @@
     <artifactId>fraggle</artifactId>
     <version>1.0</version>
     <packaging>aar</packaging>
+
     <name>fraggle</name>
+    <description>A wrapper to Android Fragment Manager to streamline some common uses and
+        functionalities
+    </description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/Sefford/fraggle</url>
+        <connection>scm:git:git://github.com/Sefford/fraggle.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/Sefford/fraggle.git</developerConnection>
+        <tag>parent-1.5.1</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>sefford</id>
+            <name>Saul Diaz Gonzalez</name>
+            <email>sefford@gmail.com</email>
+        </developer>
+        <developer>
+            <id>jorgeroduenas</id>
+            <name>Jorge Rodriguez Dueñas</name>
+            <email>jorgeroduenas@gmail.com</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <platform.version>4.1.1.4</platform.version>
         <android.plugin.version>3.8.2</android.plugin.version>
+        <!-- Compilation -->
+        <java.version>1.6</java.version>
+
+        <!-- Libraries -->
+        <hamcrest.version>1.3</hamcrest.version>
+        <jacoco.version>0.7.1.201405082137</jacoco.version>
+        <junit.version>4.11</junit.version>
+        <mockito.version>1.9.5</mockito.version>
+        <robolectric.version>2.2</robolectric.version>
     </properties>
 
     <dependencies>
@@ -25,25 +66,25 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
+            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.robolectric</groupId>
             <artifactId>robolectric</artifactId>
-            <version>2.2</version>
+            <version>${robolectric.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -65,7 +106,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.1.201405082137</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
