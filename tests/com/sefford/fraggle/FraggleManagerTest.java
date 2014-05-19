@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -32,12 +33,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(RobolectricTestRunner.class)
 public class FraggleManagerTest {
 
-    private static final String EXPECTED_TITLE = "SEXY FRAGMENT";
-    private static final String EXPECTED_TITLE_2 = "FUCKABLE FRAGMENT";
+    private static final String EXPECTED_TITLE = "TIMEY FRAGMENT";
+    private static final String EXPECTED_TITLE_2 = "WIMEY FRAGMENT";
     private static final int EXPECTED_ANIMATION = 1;
     private static final int EXPECTED_BACKSTACK_COUNT = 2;
     public static final int EXPECTED_CONTAINER_ID = 0x1234;
     public static final String MOCKED_FRAGMENT_TAG = "MockedFragment";
+    private static final String EXPECTED_EXCEPTION_MESSAGE = "ErrorErrorError";
     private FragmentAnimation partialAnimation = new FragmentAnimation(EXPECTED_ANIMATION, EXPECTED_ANIMATION);
     private FragmentAnimation fullAnimation = new FragmentAnimation(EXPECTED_ANIMATION,
             EXPECTED_ANIMATION, EXPECTED_ANIMATION, EXPECTED_ANIMATION);
@@ -90,7 +92,7 @@ public class FraggleManagerTest {
 
     @Test
     public void testOnPopBackCustomizedBackPressed() {
-        FraggleFragment mockedFragment = mock(FraggleFragment.class);
+        FraggleFragment mockedFragment = mock(TestFragment.class);
         when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
         when(mockedFragment.customizedOnBackPressed()).thenReturn(Boolean.TRUE);
         when(mockedFragment.onBackPressedTarget()).thenReturn("");
@@ -100,7 +102,7 @@ public class FraggleManagerTest {
 
     @Test
     public void testOnPopBackNotCustomizedBackPressedAndNormalPopBack() {
-        FraggleFragment mockedFragment = mock(FraggleFragment.class);
+        FraggleFragment mockedFragment = mock(TestFragment.class);
         when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
         when(mockedFragment.onBackPressedTarget()).thenReturn("");
         manager.popBackStack(EXPECTED_CONTAINER_ID);
@@ -109,12 +111,28 @@ public class FraggleManagerTest {
 
     @Test
     public void testOnPopBackNotCustomizedBackPressedAndForcedPopBack() {
-        FraggleFragment mockedFragment = mock(FraggleFragment.class);
+        FraggleFragment mockedFragment = mock(TestFragment.class);
         when(mockedFragment.onBackPressedTarget()).thenReturn(MOCKED_FRAGMENT_TAG);
         when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
         manager.popBackStack(EXPECTED_CONTAINER_ID);
         verify(fm, times(1)).popBackStack(MOCKED_FRAGMENT_TAG, 0);
     }
+
+    @Test
+    public void testOnPopBackWithSingleFragment() {
+        TestFragment mockedFragment = mock(TestFragment.class);
+        FragmentManager.BackStackEntry mockedEntry = mock(FragmentManager.BackStackEntry.class);
+        when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
+        when(fm.getBackStackEntryCount()).thenReturn(2);
+        when(fm.getBackStackEntryAt(1)).thenReturn(mockedEntry);
+        when(mockedEntry.getName()).thenReturn(EXPECTED_TITLE);
+        when(fm.findFragmentByTag(EXPECTED_TITLE)).thenReturn(mockedFragment);
+        when(mockedFragment.onBackPressedTarget()).thenReturn("");
+        manager.popBackStack(EXPECTED_CONTAINER_ID);
+        verify(fm, times(1)).popBackStackImmediate();
+        verify(mockedFragment, times(1)).onFragmentVisible();
+    }
+
 
     @Test
     public void testGetBackstackEntryCount() throws Exception {
@@ -132,6 +150,15 @@ public class FraggleManagerTest {
     public void testProcessClearBackstackClearBackstack() throws Exception {
         manager.processClearBackstack(FraggleManager.CLEAR_BACKSTACK);
         verify(fm, times(1)).popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Test
+    public void testProcessClearBackstackThrowsException() throws Exception {
+        IllegalStateException mockedException = mock(IllegalStateException.class);
+        when(mockedException.getMessage()).thenReturn(EXPECTED_EXCEPTION_MESSAGE);
+        doThrow(mockedException).when(fm).popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        manager.processClearBackstack(FraggleManager.CLEAR_BACKSTACK);
+        verify(log, times(1)).e(FraggleManager.TAG, EXPECTED_EXCEPTION_MESSAGE, mockedException);
     }
 
     @Test
@@ -252,6 +279,17 @@ public class FraggleManagerTest {
     public void testCalculateCorrectAdditionModeFragments() throws Exception {
         when(fm.getBackStackEntryCount()).thenReturn(1);
         assertThat(manager.calculateCorrectMode(), equalTo(FraggleManager.DO_NOT_REPLACE_FRAGMENT));
+    }
+
+    @Test
+    public void testIsEntryFragment() throws Exception {
+        assertThat(manager.isEntryFragment(), equalTo(Boolean.FALSE));
+    }
+
+    @Test
+    public void testPeekTag() throws Exception {
+        when(fm.findFragmentByTag(EXPECTED_TITLE)).thenReturn(mockedFragment);
+        assertThat(manager.peek(EXPECTED_TITLE), equalTo(((FraggleFragment) mockedFragment)));
     }
 
     class TestFragment extends Fragment implements FraggleFragment {

@@ -41,7 +41,7 @@ public class FraggleManager {
      * Flag indicating to replace or not the fragment
      */
     public static final int DO_NOT_REPLACE_FRAGMENT = (1 << 2);
-    private static final String TAG = "FraggleManager";
+    protected static final String TAG = "FraggleManager";
     /**
      *
      */
@@ -66,21 +66,21 @@ public class FraggleManager {
     /**
      * Adds a fragment to the activity content viewgroup.
      *
-     * @param frag  Fragment to add
-     * @param title Title to set to the actionBar
-     * @param flags Adds flags to manipulate the state of the backstack
+     * @param frag   Fragment to add
+     * @param title  Title to set to the actionBar
+     * @param flags  Adds flags to manipulate the state of the backstack
      * @param target
      */
     public void addFragment(Fragment frag, String title, FragmentAnimation animation, int flags, int target) {
         if (frag != null) {
-            if (needsToAddTheFragment(((FraggleFragment)frag).getFragmentTag())) {
+            if (needsToAddTheFragment(((FraggleFragment) frag).getFragmentTag())) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(title, flags, ft);
                 processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, target);
             } else {
-                fm.popBackStack(((FraggleFragment)frag).getFragmentTag(), 0);
+                fm.popBackStack(((FraggleFragment) frag).getFragmentTag(), 0);
                 peek(title).onFragmentVisible();
             }
         }
@@ -119,9 +119,9 @@ public class FraggleManager {
 
     protected void configureAdditionMode(Fragment frag, int flags, FragmentTransaction ft, int target) {
         if ((flags & DO_NOT_REPLACE_FRAGMENT) != DO_NOT_REPLACE_FRAGMENT) {
-            ft.replace(target, frag, ((FraggleFragment)frag).getFragmentTag());
+            ft.replace(target, frag, ((FraggleFragment) frag).getFragmentTag());
         } else {
-            ft.add(target, frag, ((FraggleFragment)frag).getFragmentTag());
+            ft.add(target, frag, ((FraggleFragment) frag).getFragmentTag());
             peek().onFragmentNotVisible();
         }
     }
@@ -142,7 +142,7 @@ public class FraggleManager {
     }
 
     /**
-     * Checks if it is an Entry Framgent those are Landing and Feed Fragments
+     * Checks if it is an Entry Framgent
      *
      * @return TRUE if is is one of those, FALSE otherwise
      */
@@ -157,6 +157,7 @@ public class FraggleManager {
 
     /**
      * Decides what to do with the backstack
+     *
      * @param target
      */
     public void popBackStack(int target) {
