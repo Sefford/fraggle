@@ -43,7 +43,7 @@ public class FraggleManager {
     public static final int DO_NOT_REPLACE_FRAGMENT = (1 << 2);
     protected static final String TAG = "FraggleManager";
     /**
-     *
+     * Logger facilities
      */
     private final Logger log;
     /**
@@ -51,6 +51,11 @@ public class FraggleManager {
      */
     private FragmentManager fm;
 
+    /**
+     * Creates a new instance of Fraggle Manager
+     *
+     * @param log Logger Facilities
+     */
     public FraggleManager(Logger log) {
         this.log = log;
     }
@@ -59,6 +64,11 @@ public class FraggleManager {
         this.fm = fm;
     }
 
+    /**
+     * Calculates the correct mode of adding a Fragment
+     *
+     * @return
+     */
     protected int calculateCorrectMode() {
         return fm.getBackStackEntryCount() == 0 ? 0 : DO_NOT_REPLACE_FRAGMENT;
     }
@@ -66,19 +76,19 @@ public class FraggleManager {
     /**
      * Adds a fragment to the activity content viewgroup.
      *
-     * @param frag   Fragment to add
-     * @param title  Title to set to the actionBar
-     * @param flags  Adds flags to manipulate the state of the backstack
-     * @param target
+     * @param frag        Fragment to add
+     * @param title       Title to set to the actionBar
+     * @param flags       Adds flags to manipulate the state of the backstack
+     * @param containerId Container ID where to insert the fragment
      */
-    public void addFragment(Fragment frag, String title, FragmentAnimation animation, int flags, int target) {
+    public void addFragment(Fragment frag, String title, FragmentAnimation animation, int flags, int containerId) {
         if (frag != null) {
             if (needsToAddTheFragment(((FraggleFragment) frag).getFragmentTag())) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(title, flags, ft);
                 processAnimations(animation, ft);
-                performTransaction(frag, flags, ft, target);
+                performTransaction(frag, flags, ft, containerId);
             } else {
                 fm.popBackStack(((FraggleFragment) frag).getFragmentTag(), 0);
                 peek(title).onFragmentVisible();
@@ -86,10 +96,21 @@ public class FraggleManager {
         }
     }
 
+    /**
+     * Returns the first fragment in the stack with the name "tag"
+     *
+     * @param tag Tag to look for in the Fragment stack
+     * @return First fragment in the stack with the name Tag
+     */
     protected FraggleFragment peek(String tag) {
         return (FraggleFragment) fm.findFragmentByTag(tag);
     }
 
+    /**
+     * Process Clear backstack flag
+     *
+     * @param flags Added flags to the Fragment configuration
+     */
     protected void processClearBackstack(int flags) {
         if ((flags & CLEAR_BACKSTACK) == CLEAR_BACKSTACK) {
             try {
@@ -100,12 +121,25 @@ public class FraggleManager {
         }
     }
 
+    /**
+     * Processes Add to Backstack flag
+     *
+     * @param title Title of the fragment
+     * @param flags Added flags to the Fragment configuration
+     * @param ft    Transaction to add to backstack from
+     */
     protected void processAddToBackstackFlag(String title, int flags, FragmentTransaction ft) {
         if ((flags & DO_NOT_ADD_TO_BACKSTACK) != DO_NOT_ADD_TO_BACKSTACK) {
             ft.addToBackStack(title);
         }
     }
 
+    /**
+     * Processes the custom animations element, adding them as required
+     *
+     * @param animation Animation object to process
+     * @param ft        Fragment transaction to add to the transition
+     */
     protected void processAnimations(FragmentAnimation animation, FragmentTransaction ft) {
         if (animation != null) {
             if (animation.isCompletedAnimation()) {
@@ -117,17 +151,34 @@ public class FraggleManager {
         }
     }
 
-    protected void configureAdditionMode(Fragment frag, int flags, FragmentTransaction ft, int target) {
+    /**
+     * Configures the way to add the Fragment into the transaction. It can vary from adding a new fragment,
+     * to using a previous instance and refresh it, or replacing the last one.
+     *
+     * @param frag        Fragment to add
+     * @param flags       Added flags to the Fragment configuration
+     * @param ft          Transaction to add the fragment
+     * @param containerId Target container ID
+     */
+    protected void configureAdditionMode(Fragment frag, int flags, FragmentTransaction ft, int containerId) {
         if ((flags & DO_NOT_REPLACE_FRAGMENT) != DO_NOT_REPLACE_FRAGMENT) {
-            ft.replace(target, frag, ((FraggleFragment) frag).getFragmentTag());
+            ft.replace(containerId, frag, ((FraggleFragment) frag).getFragmentTag());
         } else {
-            ft.add(target, frag, ((FraggleFragment) frag).getFragmentTag());
+            ft.add(containerId, frag, ((FraggleFragment) frag).getFragmentTag());
             peek().onFragmentNotVisible();
         }
     }
 
-    protected void performTransaction(Fragment frag, int flags, FragmentTransaction ft, int target) {
-        configureAdditionMode(frag, flags, ft, target);
+    /**
+     * Commits the transaction to the Fragment Manager
+     *
+     * @param frag        Fragment to add
+     * @param flags       Added flags to the Fragment configuration
+     * @param ft          Transaction to add the fragment
+     * @param containerId Target containerID
+     */
+    protected void performTransaction(Fragment frag, int flags, FragmentTransaction ft, int containerId) {
+        configureAdditionMode(frag, flags, ft, containerId);
         ft.commitAllowingStateLoss();
     }
 
@@ -150,18 +201,24 @@ public class FraggleManager {
         return false;
     }
 
+    /**
+     * Peeks the last fragment in the Fragment stack
+     *
+     * @return Last Fragment in the fragment stack
+     * @throws java.lang.NullPointerException if there is no Fragment Added
+     */
     protected FraggleFragment peek() {
         return ((FraggleFragment) fm.findFragmentByTag(
                 fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
     }
 
     /**
-     * Decides what to do with the backstack
+     * Decides what to do with the backstack.
      *
-     * @param target
+     * @param containerId Target container ID
      */
-    public void popBackStack(int target) {
-        FraggleFragment currentFragment = (FraggleFragment) fm.findFragmentById(target);
+    public void popBackStack(int containerId) {
+        FraggleFragment currentFragment = (FraggleFragment) fm.findFragmentById(containerId);
         if (!currentFragment.customizedOnBackPressed()) {
             if (currentFragment.onBackPressedTarget().isEmpty()) {
                 fm.popBackStackImmediate();
@@ -169,7 +226,7 @@ public class FraggleManager {
                     peek().onFragmentVisible();
                 }
             } else {
-                //Clean all until target
+                //Clean all until containerId
                 fm.popBackStack(currentFragment.onBackPressedTarget(), 0);
             }
         } else {
