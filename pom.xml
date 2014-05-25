@@ -8,6 +8,12 @@
     <version>1.0</version>
     <packaging>aar</packaging>
 
+<parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
     <name>fraggle</name>
     <description>A wrapper to Android Fragment Manager to streamline some common uses and
         functionalities
