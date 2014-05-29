@@ -28,8 +28,7 @@
     <scm>
         <url>https://github.com/Sefford/fraggle</url>
         <connection>scm:git:git://github.com/Sefford/fraggle.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/Sefford/fraggle.git</developerConnection>
-        <tag>parent-1.5.1</tag>
+        <developerConnection>scm:git:https://github.com/Sefford/fraggle.git</developerConnection>
     </scm>
 
     <developers>
