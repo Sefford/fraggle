@@ -99,7 +99,14 @@ public class FragmentAnimation {
     }
 
     /**
-     * Return if the animation covers the four possible animations
+     * Return if the animation covers the four possible animations:
+     * <ul>
+     * <li>New Fragment being shown</li>
+     * <li>Old Fragment being stored to the backstack</li>
+     * <li>New Fragment being being removed</li>
+     * <li>Old Fragment being popped</li>
+     * <p/>
+     * </ul>
      *
      * @return TRUE if any of the pop out animation of the push in animation are defined, FALSE otherwise
      */

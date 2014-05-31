@@ -18,16 +18,54 @@ package com.sefford.fraggle.interfaces;
  * @author Saúl Díaz González <sefford@gmail.com>
  */
 public interface FraggleFragment {
-
+    /**
+     * Returns the Fragment tag. This is a convenience method for both providing identification
+     * of the Fragment in the {@link com.sefford.fraggle.interfaces.Logger Logger)
+     * Logger} methods and through some of the {@link com.sefford.fraggle.FraggleManager FraggleManager}
+     * operations.
+     * <p/>
+     * This tag is intended to be unique across all the application's fragments.
+     *
+     * @return A String with an ID of the Fragment.
+     */
     String getFragmentTag();
 
+    /**
+     * An addition to the Fragment lifecycle to ensure that the developer has a chance to perform
+     * some activation after the fragment is reactivated into the fragment stack. It will be executed
+     * after the {@link android.app.Fragment#onResume() onResume()} method.
+     */
     void onFragmentVisible();
 
+    /**
+     * An addition to the Fragment lifecycle to ensure that the developer has a chance to perform
+     * some activation before the fragment is saved into the fragment backstack. It will be executed
+     * after the {@link android.app.Fragment#onDestroyView() onDestroyView()} method.
+     */
     void onFragmentNotVisible();
 
+    /**
+     * Flags the {@link com.sefford.fraggle.FraggleManager FraggleManager} if there is to be expected
+     * a certain behavior on pressing the back button or performing a back operation. This can
+     * be perform through {@link #onBackPressed() onBackPressed()} method.
+     *
+     * @return TRUE if the Fragment needs to delegate some custom back operation to the Fragment, FALSE
+     * otherwise
+     */
     boolean customizedOnBackPressed();
 
+    /**
+     * Indicates if the current Fragment should return back to other different Fragment than the
+     * previous one. This will allow the {@link com.sefford.fraggle.FraggleManager#popBackStack(String, int) popBackstack(String, int)}
+     * to do a jump several Fragments away.
+     *
+     * @return Valid FraggleFragment tag to provide the jump.
+     */
     String onBackPressedTarget();
 
+    /**
+     * Utility method to execute custom back button press actions besides returning to the previous
+     * fragment
+     */
     void onBackPressed();
 }

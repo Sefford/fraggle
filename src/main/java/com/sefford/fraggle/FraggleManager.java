@@ -26,21 +26,34 @@ import com.sefford.fraggle.interfaces.Logger;
  */
 public class FraggleManager {
     /**
-     * Flag for normal backstack operation
+     * Flag for normal backstack operation.
+     * <p/>
+     * This means the backstack will not be cleared and the new fragment will be added atop of the
+     * current one.
      */
     public static final int ADD_TO_BACKSTACK = 0;
     /**
-     * Flags addFragment method it has to add the fragment to the backstack
+     * Flags addFragment method it has to add the fragment to the backstack.
      */
     public static final int DO_NOT_ADD_TO_BACKSTACK = 1;
     /**
-     * Flags addFragment method it has to clear the backstack
+     * Flags addFragment method it has to clear the backstack.
+     * <p/>
+     * All the previous fragments will be discarded.
      */
     public static final int CLEAR_BACKSTACK = (1 << 1);
     /**
-     * Flag indicating to replace or not the fragment
+     * Flag indicating to replace or not the fragment.
+     * <p/>
+     * If the Fragment needs to be replaced, will FraggleManager will substitue the current Fragment
+     * with the new one. Otherwise the new will appear on top of the current one and call
+     * {@link com.sefford.fraggle.interfaces.FraggleFragment#onFragmentNotVisible() onFragmentNotVisible}
+     * instead
      */
     public static final int DO_NOT_REPLACE_FRAGMENT = (1 << 2);
+    /**
+     * Logger tag
+     */
     protected static final String TAG = "FraggleManager";
     /**
      * Logger facilities
@@ -60,21 +73,41 @@ public class FraggleManager {
         this.log = log;
     }
 
+    /**
+     * Initializes the Fraggle Manager by using a FragmentManager.
+     *
+     * @param fm FragmentManager to wrap around the FraggleManager.
+     */
     public void initialize(FragmentManager fm) {
         this.fm = fm;
     }
 
     /**
-     * Calculates the correct mode of adding a Fragment
+     * Calculates the correct mode of adding a Fragment.
+     * <p/>
+     * If there are no available Fragments the FraggleManager will not try to call a previous
+     * Fragment lifecycle.
      *
-     * @return
+     * @return No flags if there are no fragments available or DO_NOT_REPLACE otherwise.
      */
     protected int calculateCorrectMode() {
         return fm.getBackStackEntryCount() == 0 ? 0 : DO_NOT_REPLACE_FRAGMENT;
     }
 
     /**
-     * Adds a fragment to the activity content viewgroup.
+     * Adds a fragment to the activity content viewgroup. This will typically pass by a several
+     * stages, in this order:
+     * <ul>
+     * <li>Considering if the necessity of {@link #needsToAddTheFragment(String) adding another instance of such fragment class}</li>
+     * <li>{@link #processClearBackstack(int) Processing clearing backstack flags conditions}</li>
+     * <li>{@link #processAddToBackstackFlag(String, int, android.app.FragmentTransaction) Process adding to backstack flags conditions}</li>
+     * <li>{@link #processAnimations(FragmentAnimation, android.app.FragmentTransaction) Process the state of the deserved animations if any}</li>
+     * <li>{@link #performTransaction(android.app.Fragment, int, android.app.FragmentTransaction, int) Perform the actual transaction}</li>
+     * </ul>
+     * <p/>
+     * If the fragment is not required to be readded (as in a up navigation) the fragment manager
+     * will pop all the backstack until the desired fragment and the {@link com.sefford.fraggle.interfaces.FraggleFragment#onFragmentVisible() onFragmentVisible()}
+     * method will be called instead to bring up the dormant fragment.
      *
      * @param frag        Fragment to add
      * @param title       Title to set to the actionBar
@@ -97,7 +130,7 @@ public class FraggleManager {
     }
 
     /**
-     * Returns the first fragment in the stack with the name "tag"
+     * Returns the first fragment in the stack with the tag "tag".
      *
      * @param tag Tag to look for in the Fragment stack
      * @return First fragment in the stack with the name Tag
@@ -107,7 +140,10 @@ public class FraggleManager {
     }
 
     /**
-     * Process Clear backstack flag
+     * Process Clear backstack flag.
+     * <p/>
+     * FraggleManager will clear the back stack before trying to add the next Fragment if
+     * {@link #CLEAR_BACKSTACK CLEAR_BACKSTACK} flag is found
      *
      * @param flags Added flags to the Fragment configuration
      */
@@ -122,7 +158,10 @@ public class FraggleManager {
     }
 
     /**
-     * Processes Add to Backstack flag
+     * Processes Add to Backstack flag.
+     * <p/>
+     * Will not add the Fragment to the backstack if the
+     * {@link #DO_NOT_ADD_TO_BACKSTACK DO_NOT_ADD_TO_BACKSTACK} flag is found.
      *
      * @param title Title of the fragment
      * @param flags Added flags to the Fragment configuration
@@ -170,7 +209,7 @@ public class FraggleManager {
     }
 
     /**
-     * Commits the transaction to the Fragment Manager
+     * Commits the transaction to the Fragment Manager.
      *
      * @param frag        Fragment to add
      * @param flags       Added flags to the Fragment configuration
@@ -183,7 +222,13 @@ public class FraggleManager {
     }
 
     /**
-     * Discerns if we can popBackStack a Fragment
+     * Discerns if we can popBackStack a Fragment.
+     * <p/>
+     * The default behavior is to always add the Fragment. However the developer might find useful
+     * to implement an "up" navigation and avoid infinite loop navigation through their application.
+     * <p/>
+     * If the Fragment is not found to need to be added, the FraggleManager will look for the
+     * first known instance of it on the backstack and pop back all the fragments until it.
      *
      * @param tag Tag to check
      * @return TRUE if the Fragment needs to be Instantiated, FALSE if the fragment was popped
@@ -193,7 +238,14 @@ public class FraggleManager {
     }
 
     /**
-     * Checks if it is an Entry Framgent
+     * Checks if it is an Entry Framgent.
+     * <p/>
+     * An entry fragment is considered any Fragment which upon a back button press will exit the application
+     * instead of popping a Fragment from the back stack.
+     * <p/>
+     * The default behavior for this method is to declare that no fragment is an entry fragment. The
+     * developer can override this method to declare under which conditions a fragment is considered
+     * "entry fragment".
      *
      * @return TRUE if is is one of those, FALSE otherwise
      */
@@ -202,7 +254,7 @@ public class FraggleManager {
     }
 
     /**
-     * Peeks the last fragment in the Fragment stack
+     * Peeks the last fragment in the Fragment stack.
      *
      * @return Last Fragment in the fragment stack
      * @throws java.lang.NullPointerException if there is no Fragment Added
@@ -214,6 +266,19 @@ public class FraggleManager {
 
     /**
      * Decides what to do with the backstack.
+     * <p/>
+     * The default behavior is as follows:
+     * <p/>
+     * FraggleManager will determine if the Fragment has a
+     * {@link com.sefford.fraggle.interfaces.FraggleFragment#customizedOnBackPressed() customized action(s) for backpressing}
+     * If so, the Fraggle Manager will execute its {@link com.sefford.fraggle.interfaces.FraggleFragment#onBackPressed() onBackPressed()} method.
+     * <p/>
+     * If the Fragment does not have any kind of custom action, then the FraggleManager will try
+     * to determine if there is a {@link com.sefford.fraggle.interfaces.FraggleFragment#onBackPressedTarget()}.
+     * <p/>
+     * If positive, the FraggleManager will pop until it finds the Fragment.
+     * <p/>
+     * Otherwise will pop the inmediate Fragment and execute its {@link com.sefford.fraggle.interfaces.FraggleFragment#onFragmentVisible()}
      *
      * @param containerId Target container ID
      */
@@ -227,7 +292,7 @@ public class FraggleManager {
                 }
             } else {
                 //Clean all until containerId
-                fm.popBackStack(currentFragment.onBackPressedTarget(), 0);
+                popBackStack(currentFragment.onBackPressedTarget(), 0);
             }
         } else {
             currentFragment.onBackPressed();
@@ -235,9 +300,19 @@ public class FraggleManager {
     }
 
     /**
-     * Checks Backstack Entry Count
+     * Pops the Fragment with the tag, applying the necessary flags
      *
-     * @return Backstack Entry Count
+     * @param tag   Tag to look for in the Fragment stack
+     * @param flags Flags to apply for the
+     */
+    public void popBackStack(String tag, int flags) {
+        fm.popBackStack(tag, flags);
+    }
+
+    /**
+     * Checks Backstack Entry Count.
+     *
+     * @return Backstack Entry Count.
      */
     public int getBackStackEntryCount() {
         return fm.getBackStackEntryCount();

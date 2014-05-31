@@ -18,5 +18,12 @@ package com.sefford.fraggle.interfaces;
  * @author Saúl Díaz González <sefford@gmail.com>
  */
 public interface Logger {
+    /**
+     * Logs an error condition to the logger
+     *
+     * @param tag       Logging tag identifier
+     * @param message   Message to log to the logger
+     * @param exception Exception to pass to the logger
+     */
     void e(String tag, String message, Exception exception);
 }
