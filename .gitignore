@@ -12,6 +12,7 @@
 bin/
 gen/
 target/
+.idea/
 
 # Gradle files
 .gradle/

@@ -1,5 +1,3 @@
-package com.sefford.fraggle;
-
 /*
  * Copyright (C) 2014 Saúl Díaz
  *
@@ -14,6 +12,14 @@ package com.sefford.fraggle;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
+package com.sefford.fraggle;
+
+/**
+ * Encapsulates an object to pass some animations to the {@link com.sefford.fraggle.FraggleManager FraggleManager}
+ * and ultimely Android's FragmentManager to add some eye candy to the transitions.
+ * <p/>
+ * The FragmentAnimation class accepts only R.animator ids from android.R classes.
  *
  * @author Saúl Díaz González <sefford@gmail.com>
  */

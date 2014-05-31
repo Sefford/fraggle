@@ -1,12 +1,3 @@
-package com.sefford.fraggle;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-
-import com.sefford.fraggle.interfaces.FraggleFragment;
-import com.sefford.fraggle.interfaces.Logger;
-
 /*
  * Copyright (C) 2014 Saúl Díaz
  *
@@ -21,6 +12,19 @@ import com.sefford.fraggle.interfaces.Logger;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
+package com.sefford.fraggle;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+
+import com.sefford.fraggle.interfaces.FraggleFragment;
+import com.sefford.fraggle.interfaces.Logger;
+
+/**
+ * FraggleManager wraps some common operations over Android's FragmentManager concerning the
+ * addition, query and removal of Fragments.
  *
  * @author Saúl Díaz González <sefford@gmail.com>
  */
