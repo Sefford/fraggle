@@ -23,14 +23,15 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 <dependency>
     <groupId>com.sefford</groupId>
     <artifactId>fraggle</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
+    <type>aar</type>
 </dependency>
 ```
 
 ### Gradle 
 
 ```groovy
-compile 'com.sefford:fraggle:1.1'
+compile 'com.sefford:fraggle:1.2@aar'
 ```
 
 Usage
@@ -70,6 +71,14 @@ method with a known tag. This can be used to perform hierarchical navigation or 
 processes or error states to past Fragments. As with the previous point, this behavior can be changed
 in runtime depending of the flow of the application.
 
+There is another addition in order to prevent endless cycles of navigation through your flow. This is
+`isSingleInstance()` method. It will signal the FraggleManager that before adding a new instance
+it should try to find and pop an existing instance of such Fragment. 
+
+In Fraggle there is a concept  known in Fraggle as `Entry Fragment`. An `Entry Fragment` is a Fragment such
+as popping back from the back stack should signal your activity to `finish()`. This is achieved by
+letting Fragments override `isEntryFragment()` method.
+
 FraggleFragment interface extends the Fragment lifecycle with `onFragmentVisible()` and `onFragmentNotVisible()`
 methods for certain situations.
  
@@ -96,14 +105,7 @@ However, sometimes you will want to show the new over the current one, but when 
 lifecycle will not kick on because of you never removed the Fragment in the first place, for this situation overriding
 the `onFragmentVisible()` extension will come in handy.
 
-There is another addition in order to prevent endless cycles of navigation through your flow. This is
-`needsToAddTheFragment()` method. It will signal the FraggleManager that before adding a new instance
-it should try to find and pop an existing instance of such Fragment. 
-
 ### Popping back Fragments
-
-In Fraggle there is a concept  known in Fraggle as `Entry Fragment`. An `Entry Fragment` is a Fragment such
-as popping back from the back stack should signal your activity to `finish()`.
 
 Before popping back a Fragment, Fraggle will check out some conditions about the Fragment on top of the backstack.
 
@@ -112,7 +114,9 @@ Before popping back a Fragment, Fraggle will check out some conditions about the
 3. Execute the correct jump whether is popping a single element from the back stack, or a particular element.
 
 Bear in mind that performing a `finish()` in the activity is not the responsibility of the FraggleManager,
-and the developer should take care of the correct conditions for his Activity to correctly finish.
+and the developer should take care of the correct conditions for his Activity to correctly finish. However,
+the Activity can query the FraggleManager with `peek()` for the top Fragment and see if the `isEntryFragment()` method returns
+true.
 
 License
 -------

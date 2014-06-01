@@ -102,7 +102,7 @@ public class FraggleManager {
      * Adds a fragment to the activity content viewgroup. This will typically pass by a several
      * stages, in this order:
      * <ul>
-     * <li>Considering if the necessity of {@link #needsToAddTheFragment(String) adding another instance of such fragment class}</li>
+     * <li>Considering if the necessity of {@link com.sefford.fraggle.interfaces.FraggleFragment#isSingleInstance() adding another instance of such fragment class}</li>
      * <li>{@link #processClearBackstack(int) Processing clearing backstack flags conditions}</li>
      * <li>{@link #processAddToBackstackFlag(String, int, android.app.FragmentTransaction) Process adding to backstack flags conditions}</li>
      * <li>{@link #processAnimations(FragmentAnimation, android.app.FragmentTransaction) Process the state of the deserved animations if any}</li>
@@ -114,21 +114,21 @@ public class FraggleManager {
      * method will be called instead to bring up the dormant fragment.
      *
      * @param frag        Fragment to add
-     * @param title       Title to set to the actionBar
+     * @param tag         Fragment tag
      * @param flags       Adds flags to manipulate the state of the backstack
      * @param containerId Container ID where to insert the fragment
      */
-    public void addFragment(Fragment frag, String title, FragmentAnimation animation, int flags, int containerId) {
+    public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
         if (frag != null) {
-            if (needsToAddTheFragment(((FraggleFragment) frag).getFragmentTag())) {
+            if (!((FraggleFragment) frag).isSingleInstance()) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
-                processAddToBackstackFlag(title, flags, ft);
+                processAddToBackstackFlag(tag, flags, ft);
                 processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
             } else {
                 fm.popBackStack(((FraggleFragment) frag).getFragmentTag(), 0);
-                peek(title).onFragmentVisible();
+                peek(tag).onFragmentVisible();
             }
         }
     }
@@ -223,38 +223,6 @@ public class FraggleManager {
     protected void performTransaction(Fragment frag, int flags, FragmentTransaction ft, int containerId) {
         configureAdditionMode(frag, flags, ft, containerId);
         ft.commitAllowingStateLoss();
-    }
-
-    /**
-     * Discerns if we can popBackStack a Fragment.
-     * <p/>
-     * The default behavior is to always add the Fragment. However the developer might find useful
-     * to implement an "up" navigation and avoid infinite loop navigation through their application.
-     * <p/>
-     * If the Fragment is not found to need to be added, the FraggleManager will look for the
-     * first known instance of it on the backstack and pop back all the fragments until it.
-     *
-     * @param tag Tag to check
-     * @return TRUE if the Fragment needs to be Instantiated, FALSE if the fragment was popped
-     */
-    protected boolean needsToAddTheFragment(String tag) {
-        return true;
-    }
-
-    /**
-     * Checks if it is an Entry Framgent.
-     * <p/>
-     * An entry fragment is considered any Fragment which upon a back button press will exit the application
-     * instead of popping a Fragment from the back stack.
-     * <p/>
-     * The default behavior for this method is to declare that no fragment is an entry fragment. The
-     * developer can override this method to declare under which conditions a fragment is considered
-     * "entry fragment".
-     *
-     * @return TRUE if is is one of those, FALSE otherwise
-     */
-    public boolean isEntryFragment() {
-        return false;
     }
 
     /**

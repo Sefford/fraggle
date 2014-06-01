@@ -73,24 +73,6 @@ public class FraggleManagerTest {
     }
 
     @Test
-    public void testNeedsToAddTheFragmentNotInAndNoTags() {
-        when(fm.findFragmentByTag(EXPECTED_TITLE)).thenReturn(null);
-        assertThat(manager.needsToAddTheFragment(EXPECTED_TITLE), equalTo(Boolean.TRUE));
-    }
-
-    @Test
-    public void testNeedsToAddTheFragmentNotInAndTags() {
-        when(fm.findFragmentByTag(MOCKED_FRAGMENT_TAG)).thenReturn(null);
-        assertThat(manager.needsToAddTheFragment(MOCKED_FRAGMENT_TAG), equalTo(Boolean.TRUE));
-    }
-
-    @Test
-    public void testNeedsToAddTheFragmentInAndNoTags() {
-        when(fm.findFragmentByTag(EXPECTED_TITLE)).thenReturn(mock(Fragment.class));
-        assertThat(manager.needsToAddTheFragment(EXPECTED_TITLE), equalTo(Boolean.TRUE));
-    }
-
-    @Test
     public void testOnPopBackCustomizedBackPressed() {
         FraggleFragment mockedFragment = mock(TestFragment.class);
         when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
@@ -211,8 +193,8 @@ public class FraggleManagerTest {
 
     @Test
     public void testPerformTransactionAddNewFragment() throws Exception {
-        TestFragment frag = new TestFragment();
-        doReturn(Boolean.TRUE).when(manager).needsToAddTheFragment(frag.getFragmentTag());
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(true);
         doReturn(frag).when(manager).peek();
         manager.performTransaction(frag, FraggleManager.DO_NOT_REPLACE_FRAGMENT, transaction, EXPECTED_CONTAINER_ID);
         verify(transaction, times(1)).commitAllowingStateLoss();
@@ -220,12 +202,13 @@ public class FraggleManagerTest {
 
     @Test
     public void testPerformTransactionPopBack() throws Exception {
-        TestFragment frag = new TestFragment();
-        doReturn(Boolean.FALSE).when(manager).needsToAddTheFragment(frag.getFragmentTag());
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(false);
+        when(frag.getFragmentTag()).thenReturn(EXPECTED_TITLE);
         when(fm.getBackStackEntryCount()).thenReturn(1);
         FragmentManager.BackStackEntry mockBackStack = mock(FragmentManager.BackStackEntry.class);
         when(fm.getBackStackEntryAt(0)).thenReturn(mockBackStack);
-        when(mockBackStack.getName()).thenReturn(frag.getFragmentTag());
+        when(mockBackStack.getName()).thenReturn(EXPECTED_TITLE);
         doReturn(frag).when(manager).peek();
         manager.performTransaction(frag, FraggleManager.DO_NOT_REPLACE_FRAGMENT, transaction, EXPECTED_CONTAINER_ID);
         verify(fm, times(0)).popBackStack(frag.getFragmentTag(), 0);
@@ -233,13 +216,16 @@ public class FraggleManagerTest {
 
     @Test
     public void testPerformAddFragmentWithPopBack() throws Exception {
-        TestFragment frag = new TestFragment();
-        doReturn(Boolean.FALSE).when(manager).needsToAddTheFragment(frag.getFragmentTag());
-        doReturn(mock(FraggleFragment.class)).when(manager).peek(frag.getFragmentTag());
-        when(fm.getBackStackEntryCount()).thenReturn(1);
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(true);
+        when(frag.getFragmentTag()).thenReturn(MOCKED_FRAGMENT_TAG);
+
         FragmentManager.BackStackEntry mockBackStack = mock(FragmentManager.BackStackEntry.class);
+        when(fm.getBackStackEntryCount()).thenReturn(1);
         when(fm.getBackStackEntryAt(0)).thenReturn(mockBackStack);
+        when(fm.findFragmentByTag(MOCKED_FRAGMENT_TAG)).thenReturn(mock(TestFragment.class));
         when(mockBackStack.getName()).thenReturn(MOCKED_FRAGMENT_TAG);
+
         manager.addFragment(frag, frag.getFragmentTag(), null, FraggleManager.DO_NOT_REPLACE_FRAGMENT, EXPECTED_CONTAINER_ID);
         verify(fm, times(1)).popBackStack(frag.getFragmentTag(), 0);
     }
@@ -253,7 +239,9 @@ public class FraggleManagerTest {
 
     @Test
     public void testAddFragmentWithFragment() throws Exception {
-        manager.addFragment(new TestFragment(), TestFragment.TAG, null, 0, EXPECTED_CONTAINER_ID);
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(false);
+        manager.addFragment(frag, TestFragment.TAG, null, 0, EXPECTED_CONTAINER_ID);
         verify(manager, times(1)).processClearBackstack(anyInt());
         // Might try the rest, but is unnecessary
     }
@@ -282,11 +270,6 @@ public class FraggleManagerTest {
     }
 
     @Test
-    public void testIsEntryFragment() throws Exception {
-        assertThat(manager.isEntryFragment(), equalTo(Boolean.FALSE));
-    }
-
-    @Test
     public void testPeekTag() throws Exception {
         when(fm.findFragmentByTag(EXPECTED_TITLE)).thenReturn(mockedFragment);
         assertThat(manager.peek(EXPECTED_TITLE), equalTo(((FraggleFragment) mockedFragment)));
@@ -299,6 +282,16 @@ public class FraggleManagerTest {
         @Override
         public String getFragmentTag() {
             return TAG;
+        }
+
+        @Override
+        public boolean isEntryFragment() {
+            return false;
+        }
+
+        @Override
+        public boolean isSingleInstance() {
+            return false;
         }
 
         @Override
