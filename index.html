@@ -1,52 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Fraggle : A wrapper for Fragment Manager that streamlines some common operations over Fragments" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Fraggle by Sefford</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Fraggle</title>
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Sefford/fraggle">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Sefford/fraggle/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Sefford/fraggle/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Sefford/fraggle">View on GitHub</a>
+    <div class="wrapper">
 
-          <h1 id="project_title">Fraggle</h1>
-          <h2 id="project_tagline">A wrapper for Fragment Manager that streamlines some common operations over Fragments</h2>
+      <section>
+        <div id="title">
+          <h1>Fraggle</h1>
+          <p>A wrapper for Fragment Manager that streamlines some common operations over Fragments</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Sefford">Sefford</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Sefford/fraggle/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Sefford/fraggle/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
         <h1>
 <a name="fraggle" class="anchor" href="#fraggle"><span class="octicon octicon-link"></span></a>fraggle</h1>
 
-<p>An extension to Android Fragment Manager to streamline some common use</p>
+<p>A wrapper to Android Fragment Manager to encapsulate common operations concerning the fragment lifecycles.</p>
+
+<h2>
+<a name="philosophy" class="anchor" href="#philosophy"><span class="octicon octicon-link"></span></a>Philosophy</h2>
+
+<p>The idea of Fraggle is to reduce the boilerplate of having the managing code of the Fragment handling
+inside your Activity and reduce and encapsulate it away; providing it as a kind of service inside it.</p>
+
+<p>This allows to abstract your application's flow behavior from the actual management of it.</p>
+
+<h2>
+<a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h2>
+
+<h3>
+<a name="bundle" class="anchor" href="#bundle"><span class="octicon octicon-link"></span></a>Bundle</h3>
+
+<p>Fraggle comes bundled in <code>aar</code> format. Grab the latest bundle from <a href="http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.1/fraggle-1.1.aar">here</a></p>
+
+<h3>
+<a name="maven" class="anchor" href="#maven"><span class="octicon octicon-link"></span></a>Maven</h3>
+
+<div class="highlight highlight-XML"><pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.sefford<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>fraggle<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+<h3>
+<a name="gradle" class="anchor" href="#gradle"><span class="octicon octicon-link"></span></a>Gradle</h3>
+
+<div class="highlight highlight-groovy"><pre><span class="n">compile</span> <span class="s1">'com.sefford:fraggle:1.1'</span>
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a name="hooking-fraggle-to-your-activities" class="anchor" href="#hooking-fraggle-to-your-activities"><span class="octicon octicon-link"></span></a>Hooking Fraggle to your Activities</h3>
+
+<p>Fraggle can be used standalone or through a dependency injection framework as <code>Dagger</code> or <code>Guice</code>.
+However in order to use it you will need to manually inject the FragmentManager using the <code>init(FragmentManager fragment)</code>
+method, as a FragmentManager instance will not be available until you have created the Activity.</p>
+
+<p>Currently this version of Fraggle only supports Android's native FragmentManager (API 14 onwards).</p>
+
+<p>Until I do a support version, forking and using SupportFragmentManager is as simple as substituting 
+the instance  for a <code>Support Fragment Manager</code>. Sorry about that.</p>
+
+<h3>
+<a name="hooking-fraggle-to-your-fragments" class="anchor" href="#hooking-fraggle-to-your-fragments"><span class="octicon octicon-link"></span></a>Hooking Fraggle to your Fragments</h3>
+
+<p>Fraggle has an interface <code>FraggleFragment</code> to extend your Fragments with certain functionalities.</p>
+
+<p>The first one is to enforce the Fragment to self-identify through the <code>getFragmentTag</code> method. This
+method is intended to provide the runtime identification for both logging purposes and as way for
+Fraggle to look up Fragments in the backstack.</p>
+
+<p>Another functionality available to FraggleFragments is to decide if there are customized behaviors 
+for clicking the Back Button using <code>hasCustomizedBackAction()</code> and <code>onBackPressed()</code> methods. The first
+is used to identify if the FraggleFragment itself has a customized action for clicking the back button,
+and the second to actually execute it. </p>
+
+<p>The conditions will be only evaluated on the moment the user clicks on the back button, so the behavior
+can be dynamically updated depending on certain conditions of the view. </p>
+
+<p>Additionally the FraggleFragment can signal the FraggleManager to make a jump of several Fragments in
+the backstack providing such Fragments exist, by looking up the backstack for a certain Fragment tag.
+In order to activate this functionality the FraggleFragment must override <code>onBackPressedTarget()</code>
+method with a known tag. This can be used to perform hierarchical navigation or returning from long
+processes or error states to past Fragments. As with the previous point, this behavior can be changed
+in runtime depending of the flow of the application.</p>
+
+<p>FraggleFragment interface extends the Fragment lifecycle with <code>onFragmentVisible()</code> and <code>onFragmentNotVisible()</code>
+methods for certain situations.</p>
+
+<h3>
+<a name="instantiating-new-fragments" class="anchor" href="#instantiating-new-fragments"><span class="octicon octicon-link"></span></a>Instantiating new Fragments</h3>
+
+<p>The FraggleManager API is simple. In order to instantiate a new Fragment <code>addFragment()</code>
+should be called. This takes five parameters:</p>
+
+<ul>
+<li>Target fragment to add (must implement FraggleFragment).</li>
+<li>Tag of the Fragment (can be obtained from the instance using <code>getFragmentTag</code>, but this way we give a chance to change it.</li>
+<li>Fragment Animations bundle (optional) to add some eye candy to the transitions.</li>
+<li>Configuration flags for the addition of the Fragment.</li>
+<li>Target container ID.</li>
+</ul><p>The FraggleManager will configure properly the Fragment and perform the transaction.</p>
+
+<p>The available flags for configuring a Fragment are:</p>
+
+<ul>
+<li>
+<code>ADD_TO_BACKSTACK</code>: Default behavior. The Fragment will be added to the backstack.</li>
+<li>
+<code>DO_NOT_ADD_TO_BACKSTACK</code>: The Fragment will not be added to the backstack.</li>
+<li>
+<code>CLEAR_BACKSTACK</code>: The backstack will be cleared before the Fragment is added.</li>
+<li>
+<code>DO_NOT_REPLACE_FRAGMENT</code>: The default behavior of FraggleManager is to replace the current Fragment for the new one. 
+However, sometimes you will want to show the new over the current one, but when you pop back the old one, the Fragment
+lifecycle will not kick on because of you never removed the Fragment in the first place, for this situation overriding
+the <code>onFragmentVisible()</code> extension will come in handy.</li>
+</ul><p>There is another addition in order to prevent endless cycles of navigation through your flow. This is
+<code>needsToAddTheFragment()</code> method. It will signal the FraggleManager that before adding a new instance
+it should try to find and pop an existing instance of such Fragment. </p>
+
+<h3>
+<a name="popping-back-fragments" class="anchor" href="#popping-back-fragments"><span class="octicon octicon-link"></span></a>Popping back Fragments</h3>
+
+<p>In Fraggle there is a concept  known in Fraggle as <code>Entry Fragment</code>. An <code>Entry Fragment</code> is a Fragment such
+as popping back from the back stack should signal your activity to <code>finish()</code>.</p>
+
+<p>Before popping back a Fragment, Fraggle will check out some conditions about the Fragment on top of the backstack.</p>
+
+<ol>
+<li>Know if the Fragment has a customized code that the Fragment must execute, then execute it.</li>
+<li>If not, check if it has to perform a jump by reading the <code>onBackPressedTarget()</code> tag. </li>
+<li>Execute the correct jump whether is popping a single element from the back stack, or a particular element.</li>
+</ol><p>Bear in mind that performing a <code>finish()</code> in the activity is not the responsibility of the FraggleManager,
+and the developer should take care of the correct conditions for his Activity to correctly finish.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright 2014 Sefford.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Fraggle maintained by <a href="https://github.com/Sefford">Sefford</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
