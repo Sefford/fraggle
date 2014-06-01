@@ -72,36 +72,40 @@ public class FragmentAnimation {
         this.popOutAnim = popOutAnim;
     }
 
+    /**
+     * Retrieves the enter animation
+     *
+     * @return R.animator ID of enter animation
+     */
     public int getEnterAnim() {
         return enterAnim;
     }
 
-    public void setEnterAnim(int enterAnim) {
-        this.enterAnim = enterAnim;
-    }
-
+    /**
+     * Retrieves the exit animation
+     *
+     * @return R.animator ID of exit animation
+     */
     public int getExitAnim() {
         return exitAnim;
     }
 
-    public void setExitAnim(int exitAnim) {
-        this.exitAnim = exitAnim;
-    }
-
+    /**
+     * Retrieves the push in animation
+     *
+     * @return R.animator ID of push in animation
+     */
     public int getPushInAnim() {
         return pushInAnim;
     }
 
-    public void setPushInAnim(int pushInAnim) {
-        this.pushInAnim = pushInAnim;
-    }
-
+    /**
+     * Retrieves the pop out animation
+     *
+     * @return R.animator ID of pop out animation
+     */
     public int getPopOutAnim() {
         return popOutAnim;
-    }
-
-    public void setPopOutAnim(int popOutAnim) {
-        this.popOutAnim = popOutAnim;
     }
 
     /**
