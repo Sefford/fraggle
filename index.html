@@ -57,7 +57,7 @@ inside your Activity and reduce and encapsulate it away; providing it as a kind 
 <h3>
 <a name="bundle" class="anchor" href="#bundle"><span class="octicon octicon-link"></span></a>Bundle</h3>
 
-<p>Fraggle comes bundled in <code>aar</code> format. Grab the latest bundle from <a href="http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.1/fraggle-1.1.aar">here</a></p>
+<p>Fraggle comes bundled in <code>aar</code> format. Grab the latest bundle from <a href="http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.2/fraggle-1.2.aar">here</a></p>
 
 <h3>
 <a name="maven" class="anchor" href="#maven"><span class="octicon octicon-link"></span></a>Maven</h3>
@@ -65,14 +65,15 @@ inside your Activity and reduce and encapsulate it away; providing it as a kind 
 <div class="highlight highlight-XML"><pre><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.sefford<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>fraggle<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;type&gt;</span>aar<span class="nt">&lt;/type&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
 
 <h3>
 <a name="gradle" class="anchor" href="#gradle"><span class="octicon octicon-link"></span></a>Gradle</h3>
 
-<div class="highlight highlight-groovy"><pre><span class="n">compile</span> <span class="s1">'com.sefford:fraggle:1.1'</span>
+<div class="highlight highlight-groovy"><pre><span class="n">compile</span> <span class="s1">'com.sefford:fraggle:1.2@aar'</span>
 </pre></div>
 
 <h2>
@@ -114,6 +115,14 @@ method with a known tag. This can be used to perform hierarchical navigation or 
 processes or error states to past Fragments. As with the previous point, this behavior can be changed
 in runtime depending of the flow of the application.</p>
 
+<p>There is another addition in order to prevent endless cycles of navigation through your flow. This is
+<code>isSingleInstance()</code> method. It will signal the FraggleManager that before adding a new instance
+it should try to find and pop an existing instance of such Fragment. </p>
+
+<p>In Fraggle there is a concept  known in Fraggle as <code>Entry Fragment</code>. An <code>Entry Fragment</code> is a Fragment such
+as popping back from the back stack should signal your activity to <code>finish()</code>. This is achieved by
+letting Fragments override <code>isEntryFragment()</code> method.</p>
+
 <p>FraggleFragment interface extends the Fragment lifecycle with <code>onFragmentVisible()</code> and <code>onFragmentNotVisible()</code>
 methods for certain situations.</p>
 
@@ -145,15 +154,8 @@ should be called. This takes five parameters:</p>
 However, sometimes you will want to show the new over the current one, but when you pop back the old one, the Fragment
 lifecycle will not kick on because of you never removed the Fragment in the first place, for this situation overriding
 the <code>onFragmentVisible()</code> extension will come in handy.</li>
-</ul><p>There is another addition in order to prevent endless cycles of navigation through your flow. This is
-<code>needsToAddTheFragment()</code> method. It will signal the FraggleManager that before adding a new instance
-it should try to find and pop an existing instance of such Fragment. </p>
-
-<h3>
+</ul><h3>
 <a name="popping-back-fragments" class="anchor" href="#popping-back-fragments"><span class="octicon octicon-link"></span></a>Popping back Fragments</h3>
-
-<p>In Fraggle there is a concept  known in Fraggle as <code>Entry Fragment</code>. An <code>Entry Fragment</code> is a Fragment such
-as popping back from the back stack should signal your activity to <code>finish()</code>.</p>
 
 <p>Before popping back a Fragment, Fraggle will check out some conditions about the Fragment on top of the backstack.</p>
 
@@ -162,7 +164,9 @@ as popping back from the back stack should signal your activity to <code>finish(
 <li>If not, check if it has to perform a jump by reading the <code>onBackPressedTarget()</code> tag. </li>
 <li>Execute the correct jump whether is popping a single element from the back stack, or a particular element.</li>
 </ol><p>Bear in mind that performing a <code>finish()</code> in the activity is not the responsibility of the FraggleManager,
-and the developer should take care of the correct conditions for his Activity to correctly finish.</p>
+and the developer should take care of the correct conditions for his Activity to correctly finish. However,
+the Activity can query the FraggleManager with <code>peek()</code> for the top Fragment and see if the <code>isEntryFragment()</code> method returns
+true.</p>
 
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
