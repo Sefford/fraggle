@@ -15,7 +15,7 @@ Download
 
 ### Bundle
 
-Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.1/fraggle-1.1.aar)
+Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.2.1/fraggle-1.2.1.aar)
 
 ### Maven
 
@@ -23,7 +23,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 <dependency>
     <groupId>com.sefford</groupId>
     <artifactId>fraggle</artifactId>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <type>aar</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 ### Gradle 
 
 ```groovy
-compile 'com.sefford:fraggle:1.2@aar'
+compile 'com.sefford:fraggle:1.2.1@aar'
 ```
 
 Usage

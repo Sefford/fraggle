@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 1.2.1 (2014-06-02)
+-----------------------
+* Fixed critical bug concerning Single Instances Fragment
+
 Version 1.2 (2014-06-01)
 -----------------------
 * Moved some FraggleManager methods to FraggleFragment interace
