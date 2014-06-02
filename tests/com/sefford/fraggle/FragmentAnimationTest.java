@@ -51,4 +51,16 @@ public class FragmentAnimationTest {
         animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION);
         assertThat(animation.isCompletedAnimation(), equalTo(false));
     }
+
+    @Test
+    public void testIsCompletedAnimationNotFullWithPushIn() throws Exception {
+        animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION, EXPECTED_PUSH_ANIMATION, FragmentAnimation.NO_ANIMATION);
+        assertThat(animation.isCompletedAnimation(), equalTo(true));
+    }
+
+    @Test
+    public void testIsCompletedAnimationNotFullWithPopOut() throws Exception {
+        animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION, FragmentAnimation.NO_ANIMATION, EXPECTED_POP_ANIMATION);
+        assertThat(animation.isCompletedAnimation(), equalTo(true));
+    }
 }

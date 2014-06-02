@@ -10,11 +10,15 @@ import com.sefford.fraggle.interfaces.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -57,6 +61,8 @@ public class FraggleManagerTest {
     private FragmentManager.BackStackEntry mockedBackStack2;
     @Mock
     private Logger log;
+    @Mock
+    private FragmentAnimation animation;
     private FraggleManager manager;
 
     @Before
@@ -233,17 +239,52 @@ public class FraggleManagerTest {
     @Test
     public void testAddFragmentWithNullFragment() throws Exception {
         manager.addFragment(null, TestFragment.TAG, null, 0, EXPECTED_CONTAINER_ID);
+
         verify(manager, times(0)).processClearBackstack(anyInt());
         // Might try the rest, but is unnecessary
     }
 
     @Test
-    public void testAddFragmentWithFragment() throws Exception {
+    public void testAddFragmentWithFragmentNotSingleInstance() throws Exception {
         TestFragment frag = mock(TestFragment.class);
         when(frag.isSingleInstance()).thenReturn(false);
-        manager.addFragment(frag, TestFragment.TAG, null, 0, EXPECTED_CONTAINER_ID);
-        verify(manager, times(1)).processClearBackstack(anyInt());
-        // Might try the rest, but is unnecessary
+        when(frag.getFragmentTag()).thenReturn(TestFragment.TAG);
+        manager.addFragment(frag, TestFragment.TAG, animation, 0, EXPECTED_CONTAINER_ID);
+
+        InOrder order = Mockito.inOrder(manager, frag, fm);
+        order.verify(fm, times(1)).beginTransaction();
+        order.verify(manager, times(1)).processClearBackstack(anyInt());
+        order.verify(manager, times(1)).processAddToBackstackFlag(eq(TestFragment.TAG), anyInt(), (FragmentTransaction) any());
+        order.verify(manager, times(1)).processAnimations(eq(animation), (FragmentTransaction) any());
+        order.verify(manager, times(1)).performTransaction(eq(frag), eq(0), (FragmentTransaction) any(), eq(EXPECTED_CONTAINER_ID));
+    }
+
+    @Test
+    public void testAddFragmentWithFragmentSingleInstance() throws Exception {
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(true);
+
+        manager.addFragment(frag, TestFragment.TAG, animation, 0, EXPECTED_CONTAINER_ID);
+
+        InOrder order = Mockito.inOrder(manager, frag, fm);
+        order.verify(fm, times(1)).beginTransaction();
+        order.verify(manager, times(1)).processClearBackstack(anyInt());
+        order.verify(manager, times(1)).processAddToBackstackFlag(eq(TestFragment.TAG), anyInt(), (FragmentTransaction) any());
+        order.verify(manager, times(1)).processAnimations(eq(animation), (FragmentTransaction) any());
+        order.verify(manager, times(1)).performTransaction(eq(frag), eq(0), (FragmentTransaction) any(), eq(EXPECTED_CONTAINER_ID));
+    }
+
+    @Test
+    public void testAddFragmentWithFragmentSingleInstanceAndExistingFragment() throws Exception {
+        TestFragment frag = mock(TestFragment.class);
+        when(frag.isSingleInstance()).thenReturn(true);
+        when(manager.peek(TestFragment.TAG)).thenReturn(frag);
+
+        manager.addFragment(frag, TestFragment.TAG, animation, 0, EXPECTED_CONTAINER_ID);
+
+        InOrder order = Mockito.inOrder(manager, frag, fm);
+        order.verify(fm, times(1)).popBackStack(TestFragment.TAG, 0);
+        order.verify(frag, times(1)).onFragmentVisible();
     }
 
     @Test

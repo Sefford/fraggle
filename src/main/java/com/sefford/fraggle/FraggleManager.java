@@ -120,14 +120,14 @@ public class FraggleManager {
      */
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
         if (frag != null) {
-            if (!((FraggleFragment) frag).isSingleInstance()) {
+            if ((!((FraggleFragment) frag).isSingleInstance()) || peek(tag) == null) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
                 processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
             } else {
-                fm.popBackStack(((FraggleFragment) frag).getFragmentTag(), 0);
+                fm.popBackStack(tag, 0);
                 peek(tag).onFragmentVisible();
             }
         }
