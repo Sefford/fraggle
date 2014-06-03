@@ -118,6 +118,11 @@ and the developer should take care of the correct conditions for his Activity to
 the Activity can query the FraggleManager with `peek()` for the top Fragment and see if the `isEntryFragment()` method returns
 true.
 
+Sample
+------
+
+You can find a sample project showcasing Fraggle capabilities at [this url](https://github.com/Sefford/fraggle-sample)
+
 License
 -------
     Copyright 2014 Sefford.
