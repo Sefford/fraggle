@@ -3,8 +3,9 @@ package com.sefford.fraggle;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class FragmentAnimationTest {
 
@@ -23,44 +24,44 @@ public class FragmentAnimationTest {
 
     @Test
     public void testGetEnterAnim() throws Exception {
-        assertThat(animation.getEnterAnim(), equalTo(EXPECTED_ENTER_ANIMATION));
+        assertEquals(EXPECTED_ENTER_ANIMATION, animation.getEnterAnim());
     }
 
     @Test
     public void testGetExitAnim() throws Exception {
-        assertThat(animation.getExitAnim(), equalTo(EXPECTED_EXIT_ANIMATION));
+        assertEquals(EXPECTED_EXIT_ANIMATION, animation.getExitAnim());
     }
 
     @Test
     public void testGetPushInAnim() throws Exception {
-        assertThat(animation.getPushInAnim(), equalTo(EXPECTED_PUSH_ANIMATION));
+        assertEquals(EXPECTED_PUSH_ANIMATION, animation.getPushInAnim());
     }
 
     @Test
     public void testGetPopOutAnim() throws Exception {
-        assertThat(animation.getPopOutAnim(), equalTo(EXPECTED_POP_ANIMATION));
+        assertEquals(EXPECTED_POP_ANIMATION ,animation.getPopOutAnim());
     }
 
     @Test
     public void testIsCompletedAnimation() throws Exception {
-        assertThat(animation.isCompletedAnimation(), equalTo(true));
+        assertTrue(animation.isCompletedAnimation());
     }
 
     @Test
     public void testIsCompletedAnimationNotFull() throws Exception {
         animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION);
-        assertThat(animation.isCompletedAnimation(), equalTo(false));
+        assertFalse(animation.isCompletedAnimation());
     }
 
     @Test
     public void testIsCompletedAnimationNotFullWithPushIn() throws Exception {
         animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION, EXPECTED_PUSH_ANIMATION, FragmentAnimation.NO_ANIMATION);
-        assertThat(animation.isCompletedAnimation(), equalTo(true));
+        assertTrue(animation.isCompletedAnimation());
     }
 
     @Test
     public void testIsCompletedAnimationNotFullWithPopOut() throws Exception {
         animation = new FragmentAnimation(EXPECTED_ENTER_ANIMATION, EXPECTED_EXIT_ANIMATION, FragmentAnimation.NO_ANIMATION, EXPECTED_POP_ANIMATION);
-        assertThat(animation.isCompletedAnimation(), equalTo(true));
+        assertTrue(animation.isCompletedAnimation());
     }
 }

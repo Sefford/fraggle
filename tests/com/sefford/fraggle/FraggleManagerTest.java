@@ -1,8 +1,9 @@
 package com.sefford.fraggle;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.sefford.fraggle.interfaces.FraggleFragment;
 import com.sefford.fraggle.interfaces.Logger;
@@ -110,7 +111,7 @@ public class FraggleManagerTest {
     public void testOnPopBackWithSingleFragment() {
         TestFragment mockedFragment = mock(TestFragment.class);
         FragmentManager.BackStackEntry mockedEntry = mock(FragmentManager.BackStackEntry.class);
-        when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
+        when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn(mockedFragment);
         when(fm.getBackStackEntryCount()).thenReturn(2);
         when(fm.getBackStackEntryAt(1)).thenReturn(mockedEntry);
         when(mockedEntry.getName()).thenReturn(EXPECTED_TITLE);

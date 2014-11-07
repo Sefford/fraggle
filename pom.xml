@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sefford</groupId>
     <artifactId>fraggle</artifactId>
     <version>1.3-SNAPSHOT</version>
     <packaging>aar</packaging>
 
-<parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <name>fraggle</name>
     <description>A wrapper to Android Fragment Manager to streamline some common uses and
@@ -48,15 +50,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <platform.version>4.1.1.4</platform.version>
         <android.plugin.version>3.8.2</android.plugin.version>
-        <!-- Compilation -->
-        <java.version>1.6</java.version>
+        <surefire.plugin.version>2.18</surefire.plugin.version>
 
         <!-- Libraries -->
-        <hamcrest.version>1.3</hamcrest.version>
         <jacoco.version>0.7.1.201405082137</jacoco.version>
         <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
         <robolectric.version>2.2</robolectric.version>
+        <support.version>21.0.1</support.version>
+
     </properties>
 
     <dependencies>
@@ -65,6 +67,11 @@
             <artifactId>android</artifactId>
             <version>${platform.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v13</artifactId>
+            <version>${support.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -76,12 +83,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -129,7 +130,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-		<version>1.5</version>
+                <version>1.5</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -139,6 +140,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <argLine>-noverify</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
