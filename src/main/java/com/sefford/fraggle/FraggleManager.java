@@ -18,7 +18,6 @@ package com.sefford.fraggle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-
 import com.sefford.fraggle.interfaces.FraggleFragment;
 import com.sefford.fraggle.interfaces.Logger;
 
@@ -66,7 +65,7 @@ public class FraggleManager {
     /**
      * Injected Fragment Manager
      */
-    private FragmentManager fm;
+    protected FragmentManager fm;
 
     /**
      * Creates a new instance of Fraggle Manager

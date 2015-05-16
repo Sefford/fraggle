@@ -44,20 +44,21 @@ public class FraggleManagerTest {
     private FragmentAnimation fullAnimation = new FragmentAnimation(EXPECTED_ANIMATION,
             EXPECTED_ANIMATION, EXPECTED_ANIMATION, EXPECTED_ANIMATION);
     @Mock
-    protected FragmentManager fm;
+    FragmentManager fm;
     @Mock
-    private FragmentTransaction transaction;
+    FragmentTransaction transaction;
     @Mock
-    private TestFragment newMockedFragment;
+    TestFragment newMockedFragment;
     @Mock
-    private TestFragment mockedFragment;
+    TestFragment mockedFragment;
     @Mock
-    private FragmentManager.BackStackEntry mockedBackStack1;
+    FragmentManager.BackStackEntry mockedBackStack1;
     @Mock
-    private FragmentManager.BackStackEntry mockedBackStack2;
+    FragmentManager.BackStackEntry mockedBackStack2;
     @Mock
-    private Logger log;
-    private FraggleManager manager;
+    Logger log;
+
+    FraggleManager manager;
 
     @Before
     public void setUp() throws Exception {
