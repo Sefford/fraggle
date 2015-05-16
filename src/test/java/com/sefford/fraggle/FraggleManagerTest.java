@@ -3,10 +3,8 @@ package com.sefford.fraggle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-
 import com.sefford.fraggle.interfaces.FraggleFragment;
 import com.sefford.fraggle.interfaces.Logger;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +13,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -120,7 +112,7 @@ public class FraggleManagerTest {
     @Test
     public void testGetBackstackEntryCount() throws Exception {
         when(fm.getBackStackEntryCount()).thenReturn(EXPECTED_BACKSTACK_COUNT);
-        assertThat(manager.getBackStackEntryCount(), equalTo(EXPECTED_BACKSTACK_COUNT));
+        assertEquals(manager.getBackStackEntryCount(), EXPECTED_BACKSTACK_COUNT);
     }
 
     @Test

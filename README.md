@@ -15,7 +15,7 @@ Download
 
 ### Bundle
 
-Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.1/fraggle-1.1.aar)
+Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http://search.maven.org/remotecontent?filepath=com/sefford/fraggle/1.2.1/fraggle-1.2.1.aar)
 
 ### Maven
 
@@ -23,7 +23,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 <dependency>
     <groupId>com.sefford</groupId>
     <artifactId>fraggle</artifactId>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <type>aar</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 ### Gradle 
 
 ```groovy
-compile 'com.sefford:fraggle:1.2@aar'
+compile 'com.sefford:fraggle:1.2.1@aar'
 ```
 
 Usage
@@ -117,6 +117,11 @@ Bear in mind that performing a `finish()` in the activity is not the responsibil
 and the developer should take care of the correct conditions for his Activity to correctly finish. However,
 the Activity can query the FraggleManager with `peek()` for the top Fragment and see if the `isEntryFragment()` method returns
 true.
+
+Sample
+------
+
+You can find a sample project showcasing Fraggle capabilities at [this url](https://github.com/Sefford/fraggle-sample)
 
 License
 -------

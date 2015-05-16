@@ -32,19 +32,23 @@ public class FragmentAnimation {
     /**
      * Animation for when the Fragment is loaded
      */
-    private int enterAnim = NO_ANIMATION;
+    protected int enterAnim = NO_ANIMATION;
     /**
      * Animation for when the fragment is removed
      */
-    private int exitAnim = NO_ANIMATION;
+    protected int exitAnim = NO_ANIMATION;
     /**
      * Animation for when the fragment is pushed into the stack
      */
-    private int pushInAnim = NO_ANIMATION;
+    protected int pushInAnim = NO_ANIMATION;
     /**
      * Animation for when the fragment is popped from the stack
      */
-    private int popOutAnim = NO_ANIMATION;
+    protected int popOutAnim = NO_ANIMATION;
+    /**
+     * Disappearing View for Lollipop Animations
+     */
+    protected LollipopAnim[] sharedViews;
 
     /**
      * Creates a partially completed fragment animation, only with enter and exit animation
@@ -55,6 +59,20 @@ public class FragmentAnimation {
     public FragmentAnimation(int enterAnim, int exitAnim) {
         this.enterAnim = enterAnim;
         this.exitAnim = exitAnim;
+        this.sharedViews = new LollipopAnim[0];
+    }
+
+    /**
+     * Creates a partially completed fragment animation, only with enter and exit animation plus Lollipop Animations
+     *
+     * @param enterAnim   Enter animaition
+     * @param exitAnim    Exit animation
+     * @param sharedViews Array with necessary elements to build one or several Lollipop animations
+     */
+    public FragmentAnimation(int enterAnim, int exitAnim, LollipopAnim[] sharedViews) {
+        this.enterAnim = enterAnim;
+        this.exitAnim = exitAnim;
+        this.sharedViews = sharedViews;
     }
 
     /**
@@ -63,13 +81,32 @@ public class FragmentAnimation {
      *
      * @param enterAnim  Enter animaition
      * @param exitAnim   Exit animation
-     * @param popInAnim  Pop in animation
+     * @param pushInAnim Pop in animation
      * @param popOutAnim Pop out animation
      */
-    public FragmentAnimation(int enterAnim, int exitAnim, int popInAnim, int popOutAnim) {
+    public FragmentAnimation(int enterAnim, int exitAnim, int pushInAnim, int popOutAnim) {
         this(enterAnim, exitAnim);
-        this.pushInAnim = popInAnim;
+        this.pushInAnim = pushInAnim;
         this.popOutAnim = popOutAnim;
+        this.sharedViews = new LollipopAnim[0];
+    }
+
+    /**
+     * Creates a fully completed fragment animation, with all the required animations (enter, exit, pop out of the stack
+     * and push into the stack
+     *
+     * @param enterAnim   Enter animaition
+     * @param exitAnim    Exit animation
+     * @param pushInAnim  Pop in animation
+     * @param popOutAnim  Pop out animation
+     * @param sharedViews Array with necessary elements to build one or several Lollipop animations.
+     */
+    public FragmentAnimation(int enterAnim, int exitAnim, int pushInAnim, int popOutAnim, LollipopAnim[] sharedViews) {
+        this.enterAnim = enterAnim;
+        this.exitAnim = exitAnim;
+        this.pushInAnim = pushInAnim;
+        this.popOutAnim = popOutAnim;
+        this.sharedViews = sharedViews;
     }
 
     /**
@@ -122,5 +159,9 @@ public class FragmentAnimation {
      */
     public boolean isCompletedAnimation() {
         return popOutAnim != NO_ANIMATION || pushInAnim != NO_ANIMATION;
+    }
+
+    public LollipopAnim[] getSharedViews() {
+        return sharedViews;
     }
 }

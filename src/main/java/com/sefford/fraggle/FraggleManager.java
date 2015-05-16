@@ -18,6 +18,7 @@ package com.sefford.fraggle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import com.sefford.fraggle.interfaces.FraggleFragment;
 import com.sefford.fraggle.interfaces.Logger;
 
@@ -189,6 +190,11 @@ public class FraggleManager {
                         animation.getPushInAnim(), animation.getPopOutAnim());
             } else {
                 ft.setCustomAnimations(animation.getEnterAnim(), animation.getExitAnim());
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                for (LollipopAnim sharedElement : animation.getSharedViews()) {
+                    ft.addSharedElement(sharedElement.view, sharedElement.name);
+                }
             }
         }
     }
