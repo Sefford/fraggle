@@ -1,9 +1,9 @@
 Change Log
 ==========
 
-Version 1.3 (2014-06-02)
------------------------
-* Moved over SupportFragmentManager insted of FragmentManager
+Version 1.5 (2015-05-16)
+--------------------------
+* Beta support of Lollipop Animations for Fragment Manager
 
 Version 1.2.1 (2014-06-02)
 -----------------------
