@@ -42,7 +42,7 @@ public class LollipopAnim {
      * @param name The transitionName for a View in an appearing Fragment to match to the shared element.
      */
     public LollipopAnim(View view, String name) {
-        if (view != null || name == null || name.isEmpty()) {
+        if (view == null || name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Components of the animation must not be empty");
         }
         this.name = name;
