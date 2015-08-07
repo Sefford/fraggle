@@ -3,18 +3,27 @@ package com.sefford.fraggle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+
+import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
-import com.sefford.fraggle.interfaces.Logger;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -22,7 +31,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  *
  * @author Saul Diaz <sefford@gmail.com>
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class FraggleManagerTest {
 
     private static final String EXPECTED_TITLE = "TIMEY FRAGMENT";
@@ -48,7 +57,7 @@ public class FraggleManagerTest {
     @Mock
     FragmentManager.BackStackEntry mockedBackStack2;
     @Mock
-    Logger log;
+    Loggable log;
 
     FraggleManager manager;
 
@@ -97,7 +106,7 @@ public class FraggleManagerTest {
     public void testOnPopBackWithSingleFragment() {
         TestFragment mockedFragment = mock(TestFragment.class);
         FragmentManager.BackStackEntry mockedEntry = mock(FragmentManager.BackStackEntry.class);
-        when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn((Fragment) mockedFragment);
+        when(fm.findFragmentById(EXPECTED_CONTAINER_ID)).thenReturn(mockedFragment);
         when(fm.getBackStackEntryCount()).thenReturn(2);
         when(fm.getBackStackEntryAt(1)).thenReturn(mockedEntry);
         when(mockedEntry.getName()).thenReturn(EXPECTED_TITLE);
@@ -241,12 +250,13 @@ public class FraggleManagerTest {
 
     @Test
     public void testPeek() throws Exception {
+        final FragmentManager.BackStackEntry mockedEntry = mock(FragmentManager.BackStackEntry.class);
+        final FraggleFragment fragment = new TestFragment();
         when(fm.getBackStackEntryCount()).thenReturn(1);
-        FragmentManager.BackStackEntry mockedEntry = mock(FragmentManager.BackStackEntry.class);
         when(mockedEntry.getName()).thenReturn(TestFragment.TAG);
         when(fm.getBackStackEntryAt(0)).thenReturn(mockedEntry);
-        FraggleFragment fragment = new TestFragment();
         when(fm.findFragmentByTag(TestFragment.TAG)).thenReturn((Fragment) fragment);
+
         assertThat(manager.peek(), equalTo(fragment));
     }
 

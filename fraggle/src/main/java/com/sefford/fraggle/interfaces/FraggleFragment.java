@@ -34,7 +34,7 @@ public interface FraggleFragment {
 
     /**
      * Returns the Fragment tag. This is a convenience method for both providing identification
-     * of the Fragment in the {@link com.sefford.fraggle.interfaces.Logger Logger)
+     * of the Fragment in the {@link com.sefford.common.interfaces.Loggable Loggable)
      * Logger} methods and through some of the {@link com.sefford.fraggle.FraggleManager FraggleManager}
      * operations.
      * <p/>

@@ -15,6 +15,8 @@
  */
 package com.sefford.fraggle;
 
+import android.os.Build;
+
 /**
  * Encapsulates an object to pass some animations to the {@link com.sefford.fraggle.FraggleManager FraggleManager}
  * and ultimely Android's FragmentManager to add some eye candy to the transitions.
@@ -29,6 +31,10 @@ public class FragmentAnimation {
      * Constant for no animation with short duration
      */
     public static final int NO_ANIMATION = 0;
+    /**
+     * Empty constant for no animations
+     */
+    public static final LollipopAnim[] EMPTY_LOLLIPOP_ANIMS = new LollipopAnim[0];
     /**
      * Animation for when the Fragment is loaded
      */
@@ -57,9 +63,7 @@ public class FragmentAnimation {
      * @param exitAnim  Exit animation
      */
     public FragmentAnimation(int enterAnim, int exitAnim) {
-        this.enterAnim = enterAnim;
-        this.exitAnim = exitAnim;
-        this.sharedViews = new LollipopAnim[0];
+        this(enterAnim, exitAnim, NO_ANIMATION, NO_ANIMATION, EMPTY_LOLLIPOP_ANIMS);
     }
 
     /**
@@ -70,9 +74,7 @@ public class FragmentAnimation {
      * @param sharedViews Array with necessary elements to build one or several Lollipop animations
      */
     public FragmentAnimation(int enterAnim, int exitAnim, LollipopAnim[] sharedViews) {
-        this.enterAnim = enterAnim;
-        this.exitAnim = exitAnim;
-        this.sharedViews = sharedViews;
+        this(enterAnim, exitAnim, NO_ANIMATION, NO_ANIMATION, sharedViews);
     }
 
     /**
@@ -85,10 +87,7 @@ public class FragmentAnimation {
      * @param popOutAnim Pop out animation
      */
     public FragmentAnimation(int enterAnim, int exitAnim, int pushInAnim, int popOutAnim) {
-        this(enterAnim, exitAnim);
-        this.pushInAnim = pushInAnim;
-        this.popOutAnim = popOutAnim;
-        this.sharedViews = new LollipopAnim[0];
+        this(enterAnim, exitAnim, pushInAnim, popOutAnim, EMPTY_LOLLIPOP_ANIMS);
     }
 
     /**
@@ -106,7 +105,11 @@ public class FragmentAnimation {
         this.exitAnim = exitAnim;
         this.pushInAnim = pushInAnim;
         this.popOutAnim = popOutAnim;
-        this.sharedViews = sharedViews;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            this.sharedViews = sharedViews;
+        } else {
+            this.sharedViews = EMPTY_LOLLIPOP_ANIMS;
+        }
     }
 
     /**

@@ -1,0 +1,15 @@
+ext {
+    versionMajor = 1
+    versionMinor = 5
+    versionPatch = 0
+    versionBuild = 0
+}
+
+group = 'com.sefford.fraggle'
+version = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+description = 'brender'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}

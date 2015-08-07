@@ -15,12 +15,14 @@
  */
 package com.sefford.fraggle;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Build;
+
+import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
-import com.sefford.fraggle.interfaces.Logger;
 
 /**
  * FraggleManager wraps some common operations over Android's FragmentManager concerning the
@@ -62,7 +64,7 @@ public class FraggleManager {
     /**
      * Logger facilities
      */
-    private final Logger log;
+    private final Loggable log;
     /**
      * Injected Fragment Manager
      */
@@ -73,7 +75,7 @@ public class FraggleManager {
      *
      * @param log Logger Facilities
      */
-    public FraggleManager(Logger log) {
+    public FraggleManager(Loggable log) {
         this.log = log;
     }
 
@@ -120,14 +122,14 @@ public class FraggleManager {
      */
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
         if (frag != null) {
-            if (!((FraggleFragment) frag).isSingleInstance()) {
+            if ((!((FraggleFragment) frag).isSingleInstance()) || peek(tag) == null) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
                 processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
             } else {
-                fm.popBackStack(((FraggleFragment) frag).getFragmentTag(), 0);
+                fm.popBackStack(tag, 0);
                 peek(tag).onFragmentVisible();
             }
         }
@@ -183,6 +185,7 @@ public class FraggleManager {
      * @param animation Animation object to process
      * @param ft        Fragment transaction to add to the transition
      */
+    @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
     protected void processAnimations(FragmentAnimation animation, FragmentTransaction ft) {
         if (animation != null) {
             if (animation.isCompletedAnimation()) {
@@ -191,10 +194,8 @@ public class FraggleManager {
             } else {
                 ft.setCustomAnimations(animation.getEnterAnim(), animation.getExitAnim());
             }
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                for (LollipopAnim sharedElement : animation.getSharedViews()) {
-                    ft.addSharedElement(sharedElement.view, sharedElement.name);
-                }
+            for (LollipopAnim sharedElement : animation.getSharedViews()) {
+                ft.addSharedElement(sharedElement.view, sharedElement.name);
             }
         }
     }
@@ -237,8 +238,12 @@ public class FraggleManager {
      * @throws java.lang.NullPointerException if there is no Fragment Added
      */
     protected FraggleFragment peek() {
-        return ((FraggleFragment) fm.findFragmentByTag(
-                fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
+        if (fm.getBackStackEntryCount() != 0) {
+            return ((FraggleFragment) fm.findFragmentByTag(
+                    fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
+        } else {
+            return new EmptyFragment();
+        }
     }
 
     /**
