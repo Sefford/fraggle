@@ -15,7 +15,6 @@
  */
 package com.sefford.fraggle;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -31,6 +30,42 @@ import com.sefford.fraggle.interfaces.FraggleFragment;
  * @author Saúl Díaz González <sefford@gmail.com>
  */
 public class FraggleManager {
+
+    /**
+     * Empty backstack to use as a placeholder for invalid situations
+     */
+    static final FragmentManager.BackStackEntry NULL_BACKSTACK = new FragmentManager.BackStackEntry() {
+        @Override
+        public int getId() {
+            return 0;
+        }
+
+        @Override
+        public String getName() {
+            return "";
+        }
+
+        @Override
+        public int getBreadCrumbTitleRes() {
+            return 0;
+        }
+
+        @Override
+        public int getBreadCrumbShortTitleRes() {
+            return 0;
+        }
+
+        @Override
+        public CharSequence getBreadCrumbTitle() {
+            return "";
+        }
+
+        @Override
+        public CharSequence getBreadCrumbShortTitle() {
+            return "";
+        }
+    };
+
     /**
      * Flag for normal backstack operation.
      * <p/>
@@ -64,7 +99,7 @@ public class FraggleManager {
     /**
      * Logger facilities
      */
-    private final Loggable log;
+    protected final Loggable log;
     /**
      * Injected Fragment Manager
      */
@@ -130,6 +165,9 @@ public class FraggleManager {
                 performTransaction(frag, flags, ft, containerId);
             } else {
                 fm.popBackStack(tag, 0);
+                if (frag.getArguments() != null && !frag.getArguments().equals(((Fragment) peek(tag)).getArguments())) {
+                    peek(tag).onNewArgumentsReceived(frag.getArguments());
+                }
                 peek(tag).onFragmentVisible();
             }
         }
@@ -185,7 +223,6 @@ public class FraggleManager {
      * @param animation Animation object to process
      * @param ft        Fragment transaction to add to the transition
      */
-    @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
     protected void processAnimations(FragmentAnimation animation, FragmentTransaction ft) {
         if (animation != null) {
             if (animation.isCompletedAnimation()) {
@@ -194,9 +231,10 @@ public class FraggleManager {
             } else {
                 ft.setCustomAnimations(animation.getEnterAnim(), animation.getExitAnim());
             }
-            for (LollipopAnim sharedElement : animation.getSharedViews()) {
-                ft.addSharedElement(sharedElement.view, sharedElement.name);
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                for (LollipopAnim sharedElement : animation.getSharedViews()) {
+                    ft.addSharedElement(sharedElement.view, sharedElement.name);
+                }
         }
     }
 
@@ -238,7 +276,7 @@ public class FraggleManager {
      * @throws java.lang.NullPointerException if there is no Fragment Added
      */
     protected FraggleFragment peek() {
-        if (fm.getBackStackEntryCount() != 0) {
+        if (fm.getBackStackEntryCount() > 0) {
             return ((FraggleFragment) fm.findFragmentByTag(
                     fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
         } else {
@@ -297,6 +335,70 @@ public class FraggleManager {
      * @return Backstack Entry Count.
      */
     public int getBackStackEntryCount() {
-        return fm.getBackStackEntryCount();
+        return fm != null ? fm.getBackStackEntryCount() : 0;
     }
+
+    /**
+     * Clears fragment manager backstack and the fragment manager itself.
+     */
+    public void clear() {
+        if (fm != null) {
+            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        fm = null;
+    }
+
+    /**
+     * Reattaches a Fragment
+     *
+     * @param tag Tag of the Fragment to reattach
+     */
+    public void reattach(String tag) {
+        final Fragment currentFragment = (Fragment) peek(tag);
+        FragmentTransaction fragTransaction = fm.beginTransaction();
+        fragTransaction.detach(currentFragment);
+        fragTransaction.attach(currentFragment);
+        fragTransaction.commit();
+    }
+
+    /**
+     * Adds a {@link android.support.v4.app.FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
+     *
+     * @param listener Listener to add
+     */
+    public void addOnBackstackListener(FragmentManager.OnBackStackChangedListener listener) {
+        fm.addOnBackStackChangedListener(listener);
+    }
+
+
+    /**
+     * Removes a {@link android.support.v4.app.FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
+     *
+     * @param listener Listener to remove
+     */
+    public void removeOnBackstackListener(FragmentManager.OnBackStackChangedListener listener) {
+        fm.removeOnBackStackChangedListener(listener);
+    }
+
+    /**
+     * Returns if a fragment is already on the Fragment backstack
+     *
+     * @param tag Tag to check
+     * @return TRUE if the fragment is contained, FALSE otherwise
+     */
+    public boolean contains(String tag) {
+        return peek(tag) != null;
+    }
+
+    /**
+     * Returns the backstack entry at index. Returns a {@link NULL_BACKSTACK NULL_BACKSTACK} if fragment is in an inconsistent state.
+     *
+     * @param index Index to check
+     * @return the backstack
+     */
+    protected FragmentManager.BackStackEntry getBackStackEntryAt(int index) {
+        return getBackStackEntryCount() <= 0 ? NULL_BACKSTACK : this.fm.getBackStackEntryAt(index);
+    }
+
+
 }

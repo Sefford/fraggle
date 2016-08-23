@@ -1,5 +1,7 @@
 package com.sefford.fraggle;
 
+import android.os.Bundle;
+
 import com.sefford.fraggle.interfaces.FraggleFragment;
 
 /**
@@ -47,5 +49,10 @@ public class EmptyFragment implements FraggleFragment {
     @Override
     public String onBackPressedTarget() {
         return null;
+    }
+
+    @Override
+    public void onNewArgumentsReceived(Bundle arguments) {
+
     }
 }

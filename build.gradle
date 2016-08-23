@@ -1,6 +1,6 @@
 ext {
     versionMajor = 1
-    versionMinor = 5
+    versionMinor = 7
     versionPatch = 1
     versionBuild = 0
 }
@@ -8,8 +8,8 @@ ext {
 group = 'com.sefford.fraggle'
 version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
-description = 'brender'
+description = 'fraggle'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+    gradleVersion = '3.0'
 }

@@ -1,8 +1,10 @@
 package com.sefford.fraggle;
 
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 
 import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
@@ -315,6 +317,11 @@ public class FraggleManagerTest {
         @Override
         public String onBackPressedTarget() {
             return null;
+        }
+
+        @Override
+        public void onNewArgumentsReceived(Bundle arguments) {
+
         }
 
         @Override

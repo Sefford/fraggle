@@ -15,6 +15,8 @@
  */
 package com.sefford.fraggle.interfaces;
 
+import android.os.Bundle;
+
 /**
  * Interface that adds some utility methods to the Fragment Class to be used with
  * {@link com.sefford.fraggle.FraggleManager FraggleManager}
@@ -99,4 +101,12 @@ public interface FraggleFragment {
      * @return Valid FraggleFragment tag to provide the jump.
      */
     String onBackPressedTarget();
+
+    /**
+     * Passes the new arguments into the current fragment. This is applied only in the case of single instance fragments
+     * being instanced several times. Executes before {@link FraggleFragment#onFragmentVisible() onFragmentVisible()}
+     *
+     * @param arguments New arguments passed to the fragment
+     */
+    void onNewArgumentsReceived(Bundle arguments);
 }

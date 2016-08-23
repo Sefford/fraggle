@@ -6,10 +6,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.android.tools.build:gradle:2.2.0-beta2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     }
 }
 
@@ -17,7 +16,6 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.robolectric'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
@@ -48,12 +46,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 24
+    buildToolsVersion '24.0.1'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 24
         versionCode rootProject.getProperties().versionMajor * 100000 + rootProject.getProperties().versionMinor * 1000 + rootProject.getProperties().versionPatch * 100
         versionName rootProject.getProperties().version
     }
@@ -67,11 +65,11 @@ repositories {
 
 dependencies {
     compile 'com.sefford:commons:1.0.3'
-    compile 'com.android.support:support-v13:22.2.1'
+    compile 'com.android.support:support-v13:24.2.0'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.0.5-beta'
-    testCompile "org.robolectric:robolectric:3.0"
+    testCompile 'org.mockito:mockito-core:2.0.31-beta'
+    testCompile "org.robolectric:robolectric:3.1"
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
