@@ -180,7 +180,10 @@ public class FraggleManager {
      * @return First fragment in the stack with the name Tag
      */
     protected FraggleFragment peek(String tag) {
-        return (FraggleFragment) fm.findFragmentByTag(tag);
+        if (fm != null) {
+            return (FraggleFragment) fm.findFragmentByTag(tag);
+        }
+        return new EmptyFragment();
     }
 
     /**
