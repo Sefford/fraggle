@@ -2,11 +2,12 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
-        jcenter();
+        jcenter()
+        maven { url 'https://maven.google.com' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0-beta2'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     }
@@ -46,12 +47,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.1'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 27
         versionCode rootProject.getProperties().versionMajor * 100000 + rootProject.getProperties().versionMinor * 1000 + rootProject.getProperties().versionPatch * 100
         versionName rootProject.getProperties().version
     }
@@ -61,15 +62,16 @@ repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
+    maven { url 'https://maven.google.com' }
 }
 
 dependencies {
-    compile 'com.sefford:commons:1.0.3'
-    compile 'com.android.support:support-v13:24.2.0'
+    compile 'com.sefford:commons:1.1.0'
+    compile 'com.android.support:support-v13:27.0.2'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
-    testCompile "org.robolectric:robolectric:3.1.1"
+    testCompile "org.robolectric:robolectric:3.5.1"
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

@@ -15,10 +15,10 @@
  */
 package com.sefford.fraggle;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
@@ -65,6 +65,8 @@ public class FraggleManager {
             return "";
         }
     };
+
+    static final EmptyFragment EMPTY_FRAGMENT = new EmptyFragment();
 
     /**
      * Flag for normal backstack operation.
@@ -156,14 +158,14 @@ public class FraggleManager {
      * @param containerId Container ID where to insert the fragment
      */
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
-        if (frag != null) {
-            if ((!((FraggleFragment) frag).isSingleInstance()) || peek(tag) == null) {
+        if (frag != null && fm != null) {
+            if ((!((FraggleFragment) frag).isSingleInstance()) || peek(tag) == EMPTY_FRAGMENT) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
                 processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
-            } else {
+            } else if (fm != null) {
                 fm.popBackStack(tag, 0);
                 if (frag.getArguments() != null && !frag.getArguments().equals(((Fragment) peek(tag)).getArguments())) {
                     peek(tag).onNewArgumentsReceived(frag.getArguments());
@@ -181,9 +183,10 @@ public class FraggleManager {
      */
     protected FraggleFragment peek(String tag) {
         if (fm != null) {
-            return (FraggleFragment) fm.findFragmentByTag(tag);
+            final Fragment fragment = fm.findFragmentByTag(tag);
+            return fragment == null ? EMPTY_FRAGMENT : (FraggleFragment) fragment;
         }
-        return new EmptyFragment();
+        return EMPTY_FRAGMENT;
     }
 
     /**
@@ -283,7 +286,7 @@ public class FraggleManager {
             return ((FraggleFragment) fm.findFragmentByTag(
                     fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
         } else {
-            return new EmptyFragment();
+            return EMPTY_FRAGMENT;
         }
     }
 

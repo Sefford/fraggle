@@ -1,7 +1,7 @@
 ext {
-    versionMajor = 1
-    versionMinor = 7
-    versionPatch = 1
+    versionMajor = 2
+    versionMinor = 0
+    versionPatch = 0
     versionBuild = 0
 }
 
@@ -12,4 +12,12 @@ description = 'fraggle'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
+}
+repositories {
+    google()
+}
+buildscript {
+    repositories {
+        google()
+    }
 }

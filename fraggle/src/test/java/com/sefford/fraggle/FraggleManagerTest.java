@@ -1,10 +1,10 @@
 package com.sefford.fraggle;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -33,7 +33,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  *
  * @author Saul Diaz <sefford@gmail.com>
  */
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class FraggleManagerTest {
 
     private static final String EXPECTED_TITLE = "TIMEY FRAGMENT";
