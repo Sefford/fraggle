@@ -16,9 +16,9 @@
 package com.sefford.fraggle;
 
 import android.os.Build;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.sefford.common.interfaces.Loggable;
 import com.sefford.fraggle.interfaces.FraggleFragment;
@@ -368,7 +368,7 @@ public class FraggleManager {
     }
 
     /**
-     * Adds a {@link android.support.v4.app.FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
+     * Adds a {@link FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
      *
      * @param listener Listener to add
      */
@@ -378,7 +378,7 @@ public class FraggleManager {
 
 
     /**
-     * Removes a {@link android.support.v4.app.FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
+     * Removes a {@link FragmentManager.OnBackStackChangedListener OnBackStackChangedListener}
      *
      * @param listener Listener to remove
      */

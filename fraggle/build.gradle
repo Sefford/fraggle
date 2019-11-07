@@ -70,7 +70,7 @@ repositories {
 
 dependencies {
     api 'com.sefford:commons:1.1.0'
-    api 'com.android.support:support-v13:27.0.2'
+    api 'androidx.fragment:fragment:1.2.0-rc01'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:3.1.0'

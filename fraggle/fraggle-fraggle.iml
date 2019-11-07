@@ -32,7 +32,7 @@
         </compilerSettings>
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/debug" />
-          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sefford/commons/1.1.0/ab4022fa47173954ffc760a47167286f2d2ff461/commons-1.1.0.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/4fa751a8f1333b87fa2ad4bbedfa4621/support-v13-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/35361acdcc3f7c5d665365e6182b936b/support-v4-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/80423091af171eb20c3972b78cf2ce54/support-media-compat-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/23d6cfc88658088c9f3fbe1bfbc4ba1c/support-fragment-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/3e2c84510ba90c08b90556664e9215bb/support-core-utils-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/2a9d5cd14514fdea9746ad1ae852931c/support-core-ui-27.0.2-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/2bbd5e0e7af1e51250b0148139209b10/support-compat-27.0.2-api.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/com.android.support/support-annotations/27.0.2/b9ef4342c934a1a8b107506273dc8061662a322/support-annotations-27.0.2.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/6cfc70ca526a6af2da7011f5b43ca335/runtime-1.0.3-api.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/android.arch.lifecycle/common/1.0.3/7d7f60c4783872861222166f6164215f8951c7b1/common-1.0.3.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/android.arch.core/common/1.0.0/a2d487452376193fc8c103dd2b9bd5f2b1b44563/common-1.0.0.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.50/50ad05ea1c2595fb31b800e76db464d08d599af3/kotlin-stdlib-jdk7-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.50/b529d1738c7e98bbfa36a4134039528f2ce78ebf/kotlin-stdlib-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.50/3d9cd3e1bc7b92e95f43d45be3bfbcf38e36ab87/kotlin-stdlib-common-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/home/sefford/android-sdk-linux/platforms/android-29/android.jar" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sefford/commons/1.1.0/ab4022fa47173954ffc760a47167286f2d2ff461/commons-1.1.0.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/ad4e833de936c99f557b580d3a2caf13/fragment-1.2.0-rc01-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/8487f7c9c277a861df0287bccfa4f9e4/viewpager-1.0.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/29f59548992e0b28e59b724d7591fdd8/loader-1.0.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/2a4c156384226a440d5192fbad48b634/activity-1.1.0-rc01-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/0cf6322d7cd9c406379bc5882f3ef7e7/customview-1.0.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/4cffb920d09dab7f8b46d7c934a2c997/core-1.1.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/2510bb541bd14da87254644975e3e456/versionedparcelable-1.1.0-api.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/androidx.collection/collection/1.1.0/1f27220b47669781457de0d600849a5de0e89909/collection-1.1.0.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/2a06abc697732b0ab058f35f36da516f/lifecycle-viewmodel-savedstate-1.0.0-rc01-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/bec6424e9e58ab911ad26e48d76af8ec/lifecycle-viewmodel-2.2.0-rc01-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/a6ad0c2e546aeec9a24b32314784299a/lifecycle-runtime-2.2.0-rc01-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/94284068d89325bac5bc0a7605b5afbd/savedstate-1.0.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/6ce18c7142672216ee9aa8db1fc535dc/lifecycle-livedata-2.0.0-api.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/69838fb919860d08492a54a1a627b5cc/lifecycle-livedata-core-2.2.0-rc01-api.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.2.0-rc01/4ef09a745007778eef83b92f8f23987a8ea59496/lifecycle-common-2.2.0-rc01.jar:/home/sefford/.gradle/caches/transforms-2/files-2.1/0bfd98d35e981b23f9b3571a54809228/core-runtime-2.1.0-api.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/androidx.arch.core/core-common/2.1.0/b3152fc64428c9354344bd89848ecddc09b6f07e/core-common-2.1.0.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.1.0/e3a6fb2f40e3a3842e6b7472628ba4ce416ea4c8/annotation-1.1.0.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.50/50ad05ea1c2595fb31b800e76db464d08d599af3/kotlin-stdlib-jdk7-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.50/b529d1738c7e98bbfa36a4134039528f2ce78ebf/kotlin-stdlib-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.50/3d9cd3e1bc7b92e95f43d45be3bfbcf38e36ab87/kotlin-stdlib-common-1.3.50.jar:/home/sefford/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/home/sefford/android-sdk-linux/platforms/android-29/android.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="fraggle_debug" />
@@ -131,7 +131,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.robolectric:robolectric:4.3.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.robolectric:shadows-framework:4.3.1@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.android.support:support-annotations:28.0.0@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:2.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-library:1.3@jar" level="project" />
@@ -189,27 +188,33 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.17@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.annotation:javax.annotation-api:1.3.2@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: androidx.annotation:annotation:1.0.0@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.almworks.sqlite4java:sqlite4java:0.282@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.ibm.icu:icu4j:53.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.protobuf:protobuf-java:2.6.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.bouncycastle:bcprov-jdk15on:1.52@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.test:monitor:1.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.sefford:commons:1.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-annotations:27.0.2@jar" level="project" />
-    <orderEntry type="library" name="Gradle: android.arch.lifecycle:common:1.0.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: android.arch.core:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.2.0-rc01@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-v13:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-v4:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-fragment:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-core-utils:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-core-ui:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-compat:27.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime:1.0.3@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.fragment:fragment:1.2.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.loader:loader:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.activity:activity:1.1.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.customview:customview:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.core:core:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-viewmodel:2.2.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime:2.2.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.savedstate:savedstate:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata:2.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core:2.2.0-rc01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.1.0@aar" level="project" />
   </component>
 </module>
