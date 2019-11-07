@@ -13,8 +13,12 @@ description = 'fraggle'
 repositories {
     google()
 }
+
 buildscript {
+    ext.kotlin_version = '1.3.50'
+
     repositories {
         google()
+        mavenCentral()
     }
 }
