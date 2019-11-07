@@ -10,9 +10,6 @@ version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 description = 'fraggle'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
-}
 repositories {
     google()
 }
