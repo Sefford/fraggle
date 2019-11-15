@@ -59,6 +59,12 @@ android {
         versionCode rootProject.getProperties().versionMajor * 100000 + rootProject.getProperties().versionMinor * 1000 + rootProject.getProperties().versionPatch * 100
         versionName rootProject.getProperties().version
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 repositories {
@@ -69,13 +75,13 @@ repositories {
 }
 
 dependencies {
-    api 'com.sefford:commons:1.1.0'
-    api 'androidx.fragment:fragment:1.2.0-rc01'
+    implementation 'com.sefford:commons:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc01'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.4.2'
     testImplementation 'org.robolectric:robolectric:4.3.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
