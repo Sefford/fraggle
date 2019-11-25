@@ -1,7 +1,7 @@
 ext {
-    versionMajor = 1
-    versionMinor = 7
-    versionPatch = 1
+    versionMajor = 3
+    versionMinor = 0
+    versionPatch = 0
     versionBuild = 0
 }
 
@@ -10,6 +10,19 @@ version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 description = 'fraggle'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+repositories {
+    google()
+}
+
+buildscript {
+    ext.kotlin_version = '1.3.60'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+allprojects {
+    tasks.withType(Javadoc).all { enabled = false }
 }

@@ -23,7 +23,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 <dependency>
     <groupId>com.sefford</groupId>
     <artifactId>fraggle</artifactId>
-    <version>1.2.1</version>
+    <version>3.0.0</version>
     <type>aar</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ Fraggle comes bundled in `aar` format. Grab the latest bundle from [here](http:/
 ### Gradle 
 
 ```groovy
-compile 'com.sefford:fraggle:1.2.1@aar'
+implementation 'com.sefford:fraggle:3.0.0'
 ```
 
 Usage
@@ -39,14 +39,11 @@ Usage
 
 ### Hooking Fraggle to your Activities
 
-Fraggle can be used standalone or through a dependency injection framework as `Dagger` or `Guice`.
-However in order to use it you will need to manually inject the FragmentManager using the `init(FragmentManager fragment)`
-method, as a FragmentManager instance will not be available until you have created the Activity.
+Fraggle consists of a number of extensions functions that allows you to use it with both native
+and AndroidX FragmentManagers.
 
-Currently this version of Fraggle only supports Android's native FragmentManager (API 14 onwards).
-
-Until I do a support version, forking and using SupportFragmentManager is as simple as substituting 
-the instance  for a `Support Fragment Manager`. Sorry about that.
+You only need to request a FragmentManager or inject it using your DI framework choice through
+the normal means to allow it.
 
 ### Hooking Fraggle to your Fragments
 
@@ -84,16 +81,19 @@ methods for certain situations.
  
 ### Instantiating new Fragments
 
-The FraggleManager API is simple. In order to instantiate a new Fragment `addFragment()`
-should be called. This takes five parameters:
+The FraggleManager API is simple. This is done through five concepts
 
-- Target fragment to add (must implement FraggleFragment).
-- Tag of the Fragment (can be obtained from the instance using `getFragmentTag`, but this way we give a chance to change it.
+- Target fragment to add.
+- Tag of the Fragment (can be obtained from the instance using `fragmentTag`, but this way we give a chance to change it.
 - Fragment Animations bundle (optional) to add some eye candy to the transitions.
 - Configuration flags for the addition of the Fragment.
 - Target container ID.
 
 The FraggleManager will configure properly the Fragment and perform the transaction.
+
+Although you can use `addFragment` API manually, you can bundle it through the concept of `Navigators`. 
+
+These navigators will bundle and abstract the instantiation of a Fragment. 
  
 The available flags for configuring a Fragment are:
 
