@@ -24,7 +24,7 @@ import android.os.Build
  *
  * The FragmentAnimation class accepts only R.animator ids from android.R classes.
  *
- * @author Saúl Díaz González <sefford></sefford>@gmail.com>
+ * @author Saúl Díaz González <sefford@gmail.com>
  */
 class FragmentAnimation
 /**

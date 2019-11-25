@@ -1,5 +1,9 @@
 Change Log
 ==========
+Version 3.0.0(2019-11-26)
+--------------------------
+* Refactored Fraggle to Kotlin
+* Now Support and Native FragmentManagers are Supported
 
 Version 1.5 (2015-05-16)
 --------------------------

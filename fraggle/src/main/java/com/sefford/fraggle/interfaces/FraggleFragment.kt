@@ -21,7 +21,7 @@ import android.os.Bundle
  * Interface that adds some utility methods to the Fragment Class to be used with
  * [Fraggle][com.sefford.fraggle.Fraggle]
  *
- * @author Saúl Díaz González <sefford></sefford>@gmail.com>
+ * @author Saúl Díaz González <sefford@gmail.com>
  */
 interface FraggleFragment {
 

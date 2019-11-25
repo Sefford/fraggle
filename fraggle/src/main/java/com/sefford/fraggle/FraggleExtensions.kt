@@ -159,13 +159,13 @@ fun FragmentManager.navigate(navigator: Navigator) {
  * @param flags       Adds flags to manipulate the state of the backstack
  * @param containerId Container ID where to insert the fragment
  */
-internal fun FragmentManager.addFragment(frag: Fragment,
-                                         tag: String,
-                                         animation: FragmentAnimation,
-                                         flags: Int,
-                                         containerId: Int) {
+fun FragmentManager.addFragment(frag: Fragment,
+                                tag: String,
+                                animation: FragmentAnimation,
+                                flags: Int,
+                                containerId: Int) {
     val currentFragment = peek(tag)
-    if (!(frag as FraggleFragment).isSingleInstance || currentFragment == NoFragment) {
+    if ((frag as? FraggleFragment)?.isSingleInstance == false || currentFragment == NoFragment) {
         handleClearingMode(flags)
         with(beginTransaction()) {
             handleBackStackAddition(tag, flags)

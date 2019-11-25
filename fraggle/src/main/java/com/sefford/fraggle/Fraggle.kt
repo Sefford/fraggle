@@ -19,7 +19,7 @@ package com.sefford.fraggle
  * Fraggle wraps some common operations over Android's FragmentManager concerning the
  * addition, query and removal of Fragments.
  *
- * @author Saúl Díaz González <sefford></sefford>@gmail.com>
+ * @author Saúl Díaz González <sefford@gmail.com>
  */
 object Fraggle {
     /**
